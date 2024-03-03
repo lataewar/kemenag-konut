@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\SuratKeluar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
 class SuratKeluarRepository extends BaseRepository
@@ -17,7 +16,7 @@ class SuratKeluarRepository extends BaseRepository
 
   public function table(): Builder
   {
-    return $this->model->select(['id', 'nomor', 'kombinasi', 'perihal', 'tujuan', 'date', 'created_at'])->with('media')->latest();
+    return $this->model->select(['id', 'nomor', 'full_nomor', 'perihal', 'tujuan', 'date', 'created_at'])->with('media')->orderBy('id', 'DESC');
   }
 
   public function getLastNomorByCurrentYear(): int
@@ -40,7 +39,7 @@ class SuratKeluarRepository extends BaseRepository
     return $this->model->where('nomor', $nomor)->orderByDesc('id')->first()->sisipan ?? null;
   }
 
-  public function store(stdClass $data): SuratKeluar|Model
+  public function store(stdClass $data): SuratKeluar
   {
     return $this->model->create([
       'date' => $data->date,
@@ -56,6 +55,8 @@ class SuratKeluarRepository extends BaseRepository
 
       'nomor' => $data->nomor,
       'kombinasi' => $data->kombinasi,
+      'full_nomor' => $data->full_nomor,
+      'sisipan' => $data->sisipan,
 
       'user_id' => auth()->user()->id,
     ]);

@@ -24,17 +24,18 @@ class SuratKeluarService
     $tgl = Carbon::createFromFormat('Y-m-d', $data->date)->isoFormat('/MM/Y');
     $sifat = ($data->sifat == SifatSuratEnum::BIASA->value) ? 'B-' : '';
 
-    $data->kombinasi = $data->nomor . '/' . $kis . $tgl;
-    $data->full_nomor = $sifat . $data->nomor . '/' . $kis . '/' . $kkl . $tgl;
+    $sisipan = $data->sisipan ? '.' . $data->sisipan : '';
+
+    $data->kombinasi = $data->nomor . $sisipan . '/' . $kis . $tgl;
+    $data->full_nomor = $sifat . $data->nomor . $sisipan . '/' . $kis . '/' . $kkl . $tgl;
 
     return $data;
   }
 
-  public function store(stdClass $data)
+  public function store(stdClass $data): SuratKeluar
   {
     $date = Carbon::parse($data->date)->startOfDay();
     $today = Carbon::now()->startOfDay();
-    // $today = Carbon::parse('2024-06-01')->startOfDay();
 
     // if - date > today
     abort_if($date->gt($today), 422);
@@ -68,7 +69,6 @@ class SuratKeluarService
           else
             //  last_num = 1 & (sisipan + 1)
             $sisipan++;
-
         }
 
         // else if - last_num exist (there is surat before the taken date)
@@ -93,7 +93,6 @@ class SuratKeluarService
           else
             //  last_num & (sisipan + 1)
             $sisipan++;
-
         }
 
       }

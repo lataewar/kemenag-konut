@@ -6,6 +6,7 @@ use App\Services\Datatables\SuratKeluarTableService;
 use App\Services\KodeKlasifikasiService;
 use App\Services\SpesimenService;
 use App\Services\SuratKeluarService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Helpers\SelectOptions;
@@ -48,21 +49,20 @@ class SuratKeluarController extends Controller
     return json_encode(['data' => view('suratkeluar.create', $data)->render()]);
   }
 
-  public function store(SuratKeluarRequest $request)//: JsonResponse
+  public function store(SuratKeluarRequest $request): JsonResponse
   {
-    return $this->service->store((object) $request->validated());
-
-    /*
     try {
-      // Create new SuratKeluar
-      $suratkeluar = SuratKeluar::create(SuratKeluarHelper::create($request));
+      $suratkeluar = $this->service->store((object) $request->validated());
+      return response()->json(['sukses' => 'Data berhasil ditambahkan. <p class="text-primary"> Nomor Surat : ' . $suratkeluar->full_nomor . '</p>']);
 
-      return response()->json(['sukses' => 'Data berhasil ditambahkan. <p class="text-primary"> Nomor Surat : ' . $suratkeluar->kombinasi . '</p>']);
-      //
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
+    } catch (QueryException $e) {
+      $errorCode = $e->errorInfo[1];
+      if ($errorCode == 1062) {
+        // we have a duplicate entry problem
+        return response()->json(['gagal' => 'Kombinasi nomor surat sudah ada sebelumnya.']);
+      }
+      return response()->json(['gagal' => 'Data gagal ditambahkan.']);
     }
-    */
   }
 
   public function manualcheck(Request $request): JsonResponse

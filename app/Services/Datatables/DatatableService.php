@@ -76,7 +76,7 @@ class DatatableService
     return "<span class='svg-icon svg-icon-lg svg-icon-$color'>$svg</span>";
   }
 
-  public static function naviItem($route, $name, $icon = "la la-trash", $onClick = ""): string
+  public static function naviItem($route, $name, $icon, $onClick = ""): string
   {
     return "<li class='navi-item'>
               <a href='$route' $onClick class='navi-link'>

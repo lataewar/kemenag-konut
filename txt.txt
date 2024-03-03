@@ -55,3 +55,35 @@ https://carbon.nesbot.com/docs/
 carbon compare date without time
 https://stackoverflow.com/questions/45359377/carbon-diff-two-datetime-objects-by-dates-only ----
 https://shouts.dev/snippets/laravel-carbon-compare-two-dates-without-times
+
+laravel duplicate database entry exception
+https://stackoverflow.com/questions/27878719/laravel-catch-eloquent-unique-field-error ----
+https://laracasts.com/discuss/channels/eloquent/eloquent-trycatch-on-duplicate-key-exception-and-delete
+https://copyprogramming.com/howto/laravel-try-catch-integrity-duplicate-entry
+https://laracasts.com/discuss/channels/eloquent/duplicate-entry-while-using-updateorcreate
+
+
+---------------------------------------- QUERY ----------------------------------------
+
+INSERT INTO `surat_keluars`
+(`id`, `date`, `nomor`, `kombinasi`, `full_nomor`, `sisipan`, `is_otomatis`, `kategori`, `sifat`, `klasifikasi_id`, `perihal`, `asal`, `tujuan`, `spesimen_id`, `desc`, `user_id`, `created_at`, `updated_at`)
+VALUES
+(1, '2024-02-16', '1', '1/Kk.24.11/02/2024', 'B-1/Kk.24.11/KP.04.1/02/2024', NULL, 1, 1, 1, 57, 'Quia autem consequat', 'Eum porro voluptatum', 'Minima recusandae D', 1, 'Do ut delectus dolo', 1, '2024-03-02 16:08:26', '2024-03-02 16:08:26'),
+(2, '2024-02-17', '2', '2/Kk.24.11/02/2024', 'B-2/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(3, '2024-02-18', '3', '3/Kk.24.11/02/2024', 'B-3/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(4, '2024-02-19', '4', '4/Kk.24.11/02/2024', 'B-4/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(5, '2024-02-20', '5', '5/Kk.24.11/02/2024', 'B-5/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(6, '2024-02-21', '6', '6/Kk.24.11/02/2024', 'B-6/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(7, '2024-02-22', '7', '7/Kk.24.11/02/2024', 'B-7/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(8, '2024-02-23', '8', '8/Kk.24.11/02/2024', 'B-8/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(9, '2024-02-24', '9', '9/Kk.24.11/02/2024', 'B-9/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(10, '2024-02-25', '10', '10/Kk.24.11/02/2024', 'B-10/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(11, '2024-02-26', '11', '11/Kk.24.11/02/2024', 'B-11/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(12, '2024-02-27', '12', '12/Kk.24.11/02/2024', 'B-12/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(13, '2024-02-28', '13', '13/Kk.24.11/02/2024', 'B-13/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(14, '2024-02-29', '14', '14/Kk.24.11/02/2024', 'B-14/Kk.24.11/BA.04/02/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(15, '2024-03-02', '15', '15/Kk.24.11/02/2024', 'B-15/Kk.24.11/BA.04/03/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(16, '2024-03-02', '16', '16/Kk.24.11/02/2024', 'B-16/Kk.24.11/BA.04/03/2024', NULL, 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(17, '2024-02-20', '5', '5.a/Kk.24.11/02/2024', 'B-5.a/Kk.24.11/BA.04/03/2024', 'a', 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33'),
+(18, '2024-02-20', '5', '5.b/Kk.24.11/02/2024', 'B-5.b/Kk.24.11/BA.04/03/2024', 'b', 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33')
+;

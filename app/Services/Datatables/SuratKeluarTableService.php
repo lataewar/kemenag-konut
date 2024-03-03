@@ -18,9 +18,9 @@ class SuratKeluarTableService extends DatatableService
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
         return self::aksiDropdown(
-          self::naviItem('javascript:;', 'upload_berkas', "onclick=\"berkas('" . $data->id . "')\"") .
-          self::naviItem('javascript:;', 'edit', "onclick=\"edit('" . $data->id . "')\"") .
-          self::naviItem('javascript:;', 'delete', "onclick=\"destroy('" . $data->id . "', '" . $data->kombinasi . "')\"")
+          self::naviItem('javascript:;', 'Unggah Berkas', "la la-file-upload", "onclick=\"berkas('" . $data->id . "')\"") .
+          self::naviItem('javascript:;', 'Ubah Data', "la la-pencil", "onclick=\"edit('" . $data->id . "')\"") .
+          self::naviItem('javascript:;', 'Hapus Data', "la la-trash", "onclick=\"destroy('" . $data->id . "', '" . $data->full_nomor . "')\"")
         );
       })
       ->addColumn('cb', function ($data) {
@@ -29,7 +29,7 @@ class SuratKeluarTableService extends DatatableService
       ->addColumn('nomor', function ($data) {
         return "<div>
                   <span class='text-dark-75 font-weight-bold line-height-sm d-block pb-2 '>$data->nomor</span>
-                  <span class='text-success'><small>$data->kombinasi</small></span>
+                  <span class='text-success'><small>$data->full_nomor</small></span>
                 </div>";
       })
       ->addColumn('date', function ($data) {
