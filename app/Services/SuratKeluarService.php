@@ -31,9 +31,6 @@ class SuratKeluarService
 
   public function store(stdClass $data)
   {
-    $date = Carbon::createFromFormat('Y-m-d', $data->date);
-    $today = Carbon::createFromFormat('Y-m-d', now());
-
     $date = Carbon::parse($data->date)->startOfDay();
     $today = Carbon::now()->startOfDay();
 
