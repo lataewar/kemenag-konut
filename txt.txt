@@ -1,15 +1,15 @@
 if - otomatis
-	if - date > now
+	# if - date > now
 		validation error
 
-	else if - date = now
-		if - last_num not exist
+	# else if - date = now
+		# if - last_num not exist
 			last_num = 1
 
-		else if - last_num exist
+		# else if - last_num exist
 			last_num + 1
 
-	else if - date < now
+	# else if - date < now
 		if - last_num not exist
 			last_num = 1 & sisipan = a
 

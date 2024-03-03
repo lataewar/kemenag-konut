@@ -23,8 +23,10 @@ class SuratKeluarRequest extends FormRequest
       'is_otomatis' => [],
     ];
 
-    if (!request()->is_otomatis)
+    if (!request()->is_otomatis) {
       $rules += ['nomor' => ['required']];
+      $rules += ['sisipan' => []];
+    }
 
     return $rules;
   }

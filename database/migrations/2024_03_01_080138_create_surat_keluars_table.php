@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->string('nomor', 10);
       $table->string('kombinasi')->unique();
       $table->string('sisipan', 5)->nullable();
+      $table->string('full_nomor');
 
       $table->boolean('is_otomatis');
       $table->tinyInteger('kategori');

@@ -13,7 +13,7 @@ class SuratKeluar extends Model implements HasMedia
 {
   use HasFactory, InteractsWithMedia;
 
-  protected $fillable = ['nomor', 'kombinasi', 'kategori', 'date', 'klasifikasi_id', 'sifat', 'perihal', 'tujuan', 'spesimen_id', 'asal', 'is_otomatis', 'user_id', 'desc'];
+  protected $fillable = ['nomor', 'sisipan', 'kombinasi', 'full_nomor', 'kategori', 'date', 'klasifikasi_id', 'sifat', 'perihal', 'tujuan', 'spesimen_id', 'asal', 'is_otomatis', 'user_id', 'desc'];
 
   protected $casts = [
     'kategori' => KategoriSuratEnum::class,

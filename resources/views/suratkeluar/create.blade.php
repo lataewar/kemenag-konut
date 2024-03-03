@@ -21,8 +21,12 @@
         </div>
 
         <div class="row txt-nomor" style="display: none;">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <x-form.txt-stack name="nomor" id="nomor" placeholder="Nomor">Nomor<x-redstar /></x-form.txt-stack>
+          </div>
+          <div class="col-md-4">
+            <x-form.txt-stack name="sisipan" id="sisipan" placeholder="Kode Tambahan">Kode
+              Tambahan</x-form.txt-stack>
           </div>
         </div>
 

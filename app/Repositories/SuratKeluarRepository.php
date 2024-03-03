@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\SuratKeluar;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use stdClass;
@@ -22,6 +23,21 @@ class SuratKeluarRepository extends BaseRepository
   public function getLastNomorByCurrentYear(): int
   {
     return $this->model->whereYear('date', date('Y'))->max('nomor') + 1;
+  }
+
+  public function getLastNomorBetween(Carbon $fisrtDate, Carbon $lastDate): ?int
+  {
+    return $this->model
+      ->whereBetween('date', [$fisrtDate, $lastDate])
+      ->whereNull('sisipan')
+      ->orderByDesc('id')
+      ->first()
+      ->nomor ?? null;
+  }
+
+  public function getLastSisipanByNomor(int $nomor): ?string
+  {
+    return $this->model->where('nomor', $nomor)->orderByDesc('id')->first()->sisipan ?? null;
   }
 
   public function store(stdClass $data): SuratKeluar|Model
