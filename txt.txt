@@ -1,0 +1,57 @@
+if - otomatis
+	if - date > now
+		validation error
+
+	else if - date = now
+		if - last_num not exist
+			last_num = 1
+
+		else if - last_num exist
+			last_num + 1
+
+	else if - date < now
+		if - last_num not exist
+			last_num = 1 & sisipan = a
+
+		else if - last_num exist
+			if - (last_num + 1) not exist
+				last_num + 1
+
+			else if - sisipan not exist
+				last_num & sisipan = a
+
+			else if - sisipan exist
+				last_num & (sisipan + 1)
+
+else if - manual
+	if - date > now
+		validation error
+
+	else if - date = now
+		get_num
+
+	else if - date < now
+		get_last_num
+
+
+---------------------------------------- History ----------------------------------------
+
+laravel carbon date compare
+https://www.itsolutionstuff.com/post/how-to-compare-two-dates-in-laravel-carbonexample.html ----
+https://stackoverflow.com/questions/29684111/how-to-compare-two-carbon-timestamps
+https://www.stackoverlode.com/blogs/single/how-to-compare-two-date-in-laravel
+https://laracasts.com/discuss/channels/laravel/comparing-dates-with-carbon
+
+php string incrementing string
+https://stackoverflow.com/questions/8885440/increment-behavior-on-strings-php-easter-egg
+https://stackoverflow.com/questions/59977752/how-to-create-custom-auto-increment-for-string-field-in-laravel
+https://laracasts.com/discuss/channels/laravel/how-to-perform-auto-increment-string-in-laravel
+https://laracasts.com/discuss/channels/laravel/auto-increment-string
+
+carbon createFromFormat now()
+https://stackoverflow.com/questions/51203115/how-format-date-carbonnow-in-laravel-php
+https://carbon.nesbot.com/docs/
+
+carbon compare date without time
+https://stackoverflow.com/questions/45359377/carbon-diff-two-datetime-objects-by-dates-only ----
+https://shouts.dev/snippets/laravel-carbon-compare-two-dates-without-times
