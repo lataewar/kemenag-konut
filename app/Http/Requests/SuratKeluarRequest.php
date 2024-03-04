@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\KategoriSuratEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SuratKeluarRequest extends FormRequest
@@ -10,7 +11,6 @@ class SuratKeluarRequest extends FormRequest
   {
     $rules = [
       'date' => ['required', 'date_format:Y-m-d', 'before:tomorrow'],
-      'klasifikasi_id' => ['required'],
       'perihal' => ['required'],
 
       'kategori' => [],
@@ -27,6 +27,9 @@ class SuratKeluarRequest extends FormRequest
       $rules += ['nomor' => ['required']];
       $rules += ['sisipan' => []];
     }
+
+    $rules += request()->klasifikasi_id == KategoriSuratEnum::SURAT_KELUAR->value ?
+      ['klasifikasi_id' => ['required']] : ['klasifikasi_id' => []];
 
     return $rules;
   }

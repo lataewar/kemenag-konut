@@ -33,9 +33,8 @@ class SuratKeluar extends Model implements HasMedia
   public function registerMediaCollections(): void
   {
     $this
-      ->addMediaCollection('berkas_suratkeluar')
+      ->addMediaCollection('default')
       ->singleFile()
-      ->useDisk('public')
       ->useFallbackUrl(asset('/assets/media/users/blank.png'))
       ->useFallbackPath(asset('/assets/media/users/blank.png'));
   }

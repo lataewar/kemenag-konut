@@ -38,6 +38,14 @@ $(document).on("change", "#metode", function (e) {
   }
 });
 
+$(document).on("change", "#kategori", function (e) {
+  if ($("#kategori").val() == 1) {
+    $(".div-clasifikasi").show("fast");
+  } else {
+    $(".div-clasifikasi").hide("fast");
+  }
+});
+
 const berkas = function (id) {
   ajaxCall(
     urx + "/" + id + "/berkas",

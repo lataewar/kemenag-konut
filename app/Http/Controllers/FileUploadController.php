@@ -12,7 +12,7 @@ class FileUploadController extends Controller
   public function processImg(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'filepond' => 'image|mimes:jpg,jpeg,png|max:512|required',
+      'file' => 'image|mimes:jpg,jpeg,png|max:512|required',
     ]);
 
     // Check validation failure
@@ -20,8 +20,8 @@ class FileUploadController extends Controller
       abort(422, 'You tried to pass the front end validation. lol');
     }
 
-    if ($request->hasFile('filepond')) {
-      $file = $request->file('filepond');
+    if ($request->hasFile('file')) {
+      $file = $request->file('file');
       $filename = $file->getClientOriginalName();
       $folder = uniqid() . '-' . now()->timestamp;
       $file->storeAs('files/tmp/' . $folder, $filename);
@@ -31,7 +31,7 @@ class FileUploadController extends Controller
         'filename' => $filename
       ]);
 
-      app('debugbar')->disable();
+      // app('debugbar')->disable();
       return $folder;
     }
 
@@ -40,7 +40,7 @@ class FileUploadController extends Controller
 
   public function revert()
   {
-    app('debugbar')->disable();
+    // app('debugbar')->disable();
 
     $temporaryFile = TemporaryFile::where('folder', request()->getContent())->first();
     unlink(storage_path('app/public/files/tmp/' . request()->getContent() . '/' . $temporaryFile->filename));
@@ -54,7 +54,7 @@ class FileUploadController extends Controller
   public function processFile(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'filepond' => 'mimes:pdf|max:512|required',
+      'file' => 'mimes:pdf|max:512|required',
     ]);
 
     // Check validation failure
@@ -62,8 +62,8 @@ class FileUploadController extends Controller
       abort(422, 'You tried to pass the front end validation. lol');
     }
 
-    if ($request->hasFile('filepond')) {
-      $file = $request->file('filepond');
+    if ($request->hasFile('file')) {
+      $file = $request->file('file');
       $folder = uniqid() . '-' . now()->timestamp;
       $filename = $folder . ".pdf";
       $file->storeAs('files/tmp/' . $folder, $filename);
@@ -73,7 +73,7 @@ class FileUploadController extends Controller
         'filename' => $filename
       ]);
 
-      app('debugbar')->disable();
+      // app('debugbar')->disable();
       return $folder;
     }
 

@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
   });
 
   // Upload and delete temporary file
-  Route::post('files/processberkas', [FileUploadController::class, 'processBerkas']);
+  Route::post('files/processberkas', [FileUploadController::class, 'processFile']);
   Route::delete('files/revert', [FileUploadController::class, 'revert']);
 
   Route::post('user/dt', [UserController::class, 'dt'])->name('user.dt');
@@ -67,8 +67,8 @@ Route::middleware('auth')->group(function () {
   Route::post('suratkeluar/dt', [SuratKeluarController::class, 'dt'])->name('suratkeluar.dt');
   Route::post('suratkeluar/multdelete', [SuratKeluarController::class, 'multdelete'])->name('suratkeluar.multdelete');
   Route::post('suratkeluar/manualcheck', [SuratKeluarController::class, 'manualcheck']);
-  Route::get('suratkeluar/{suratkeluar}/berkas', [SuratKeluarController::class, 'berkas'])->name('suratkeluar.berkas');
-  Route::post('suratkeluar/{suratkeluar}/berkas', [SuratKeluarController::class, 'storeBerkas'])->name('suratkeluar.berkas.store');
+  Route::get('suratkeluar/{id}/berkas', [SuratKeluarController::class, 'berkas'])->name('suratkeluar.berkas');
+  Route::post('suratkeluar/{id}/berkas', [SuratKeluarController::class, 'storeBerkas'])->name('suratkeluar.berkas.store');
   Route::get('suratkeluar/cetak', [CetakSuratKeluarController::class, 'index'])->name('suratkeluar.cetak');
   Route::post('suratkeluar/cetak', [CetakSuratKeluarController::class, 'cetak'])->name('suratkeluar.postcetak');
   Route::resource('suratkeluar', SuratKeluarController::class);

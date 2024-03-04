@@ -56,10 +56,12 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <x-form.select-static-stack name="klasifikasi_id" id="klasifikasi_id">
-              Klasifikasi Surat<x-redstar />
-              @slot('items', $klasifikasis)
-            </x-form.select-static-stack>
+            <div class="div-clasifikasi">
+              <x-form.select-static-stack name="klasifikasi_id" id="klasifikasi_id">
+                Klasifikasi Surat<x-redstar />
+                @slot('items', $klasifikasis)
+              </x-form.select-static-stack>
+            </div>
             <x-form.txtarea-stack name="perihal" id="perihal" placeholder="Perihal Surat">
               @slot('title') Perihal Surat<x-redstar />@endslot
             </x-form.txtarea-stack>

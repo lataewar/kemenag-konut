@@ -1,4 +1,5 @@
-<form action="{{ route('suratkeluar.berkas.store', ['suratkeluar' => $data->id]) }}" class="row berkasform" id="berkasform" method="POST" enctype="multipart/form-data">
+<form action="{{ route('suratkeluar.berkas.store', ['id' => $data->id]) }}" class="row berkasform" id="berkasform"
+  method="POST" enctype="multipart/form-data">
   @csrf
   <div class="col-md-12">
     <div class="card card-custom gutter-b">
@@ -8,7 +9,7 @@
       <div class="card-body">
         <div class="form-group">
           <label>Nomor Surat</label>
-          <input type="text" class="form-control" disabled="disabled" value="{{ $data->kombinasi }}"/>
+          <input type="text" class="form-control" disabled="disabled" value="{{ $data->kombinasi }}" />
         </div>
         <div class="form-group">
           <label>Perihal</label>
@@ -21,15 +22,16 @@
   </div>
 </form>
 <script>
-  (function () {
-    FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+  (function() {
+    FilePond.registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateType,
+      FilePondPluginFileValidateSize);
     const inputElement = document.querySelector('input[class="filepond"]');
     pond = FilePond.create(inputElement, {
       allowFileTypeValidation: true,
-      acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf'],
-      labelFileTypeNotAllowed: 'Masukkan format pdf / jpg / jpeg / png',
+      acceptedFileTypes: ['application/pdf'],
+      labelFileTypeNotAllowed: 'Masukkan berkas dengan format .pdf',
       allowFileSizeValidation: true,
-      maxFileSize: '1MB',
+      maxFileSize: '512KB',
       labelMaxFileSize: 'Ukuran maksimal berkas adalah {filesize}',
       labelMaxFileSizeExceeded: 'Berkas terlalu besar',
     });

@@ -2,13 +2,13 @@
 
 namespace App\Services\MediaLibrary;
 
-use App\Repositories\Interfaces\TemporaryFileRepositoryInterface;
+use App\Repositories\TemporaryFileRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class MediaLibraryService
 {
   public function __construct(
-    protected TemporaryFileRepositoryInterface $repository
+    protected TemporaryFileRepository $repository
   ) {
   }
 

@@ -6,9 +6,12 @@ use App\Enums\KategoriSuratEnum;
 use App\Enums\SifatSuratEnum;
 use App\Models\SuratKeluar;
 use App\Repositories\SuratKeluarRepository;
+use App\Services\MediaLibrary\MediaLibraryService;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use stdClass;
 
 class SuratKeluarService
@@ -46,6 +49,7 @@ class SuratKeluarService
 
     $data->kombinasi = $data->nomor . $sisipan . '/' . 'SK/' . $year;
     $data->full_nomor = $data->nomor . $sisipan;
+    $data->klasifikasi_id = 0;
 
     return $data;
   }
@@ -184,5 +188,22 @@ class SuratKeluarService
   public function multipleDelete(array $ids): bool
   {
     return $this->repository->multipleDelete($ids);
+  }
+
+  public function storeBerkas(int $id, stdClass $data): bool
+  {
+    $mediaLibService = app(MediaLibraryService::class);
+
+    DB::beginTransaction();
+    try {
+      $surat = $this->find($id);
+      $mediaLibService->store($surat, $data->file);
+
+      DB::commit();
+      return true;
+    } catch (Exception $e) {
+      DB::rollback();
+      return false;
+    }
   }
 }

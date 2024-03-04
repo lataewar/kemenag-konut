@@ -46,10 +46,10 @@ class SuratKeluarTableService extends DatatableService
       })
       ->addColumn('berkas', function ($data) {
         $berkas = "tes";
-        if (!$data->hasMedia('berkas_suratkeluar'))
+        if (!$data->hasMedia())
           $berkas = self::label('Belum Ada', 'danger');
         else
-          $berkas = "<a href='" . $data->getMedia('berkas_suratkeluar')->first()->getUrl() . "' target='_blank'>Berkas</a>";
+          $berkas = "<a href='" . $data->getMedia()->first()->getUrl() . "' target='_blank'>Berkas</a>";
         return $berkas;
       })
       ->rawColumns(['aksi', 'cb', 'nomor', 'date', 'perihal', 'tujuan', 'berkas'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BerkasSuratRequest;
 use App\Http\Requests\SuratKeluarEditRequest;
 use App\Services\Datatables\SuratKeluarTableService;
 use App\Services\KodeKlasifikasiService;
@@ -10,12 +11,7 @@ use App\Services\SuratKeluarService;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Helpers\SelectOptions;
-use App\Helpers\SuratKeluarHelper;
 use App\Http\Requests\SuratKeluarRequest;
-use App\Models\KodeKlasifikasi;
-use App\Models\Spesimen;
-use App\Models\SuratKeluar;
 use App\Models\TemporaryFile;
 use Illuminate\View\View;
 
@@ -114,32 +110,20 @@ class SuratKeluarController extends Controller
     return response()->json(['gagal' => 'Data gagal ditambahkan.']);
   }
 
-  public function berkas(SuratKeluar $suratkeluar): JsonResponse|string
+  public function berkas($id): JsonResponse|string
   {
     return json_encode([
       'data' => view('suratkeluar.berkas', [
-        'data' => $suratkeluar,
+        'data' => $this->service->find($id),
       ])->render()
     ]);
   }
 
-  public function storeBerkas(Request $request, SuratKeluar $suratkeluar): JsonResponse
+  public function storeBerkas(BerkasSuratRequest $request, $id): JsonResponse
   {
-    try {
-      $temporaryFile = TemporaryFile::where('folder', $request->file)->first();
-      if ($temporaryFile) {
-        $suratkeluar
-          ->addMedia(storage_path('app/public/files/tmp/' . $request->file . '/' . $temporaryFile->filename))
-          ->toMediaCollection('berkas_suratkeluar');
-
-        rmdir(storage_path('app/public/files/tmp/' . $request->file));
-        $temporaryFile->delete();
-      }
-
+    if ($this->service->storeBerkas($id, (object) $request->validated()))
       return response()->json(['sukses' => 'Berkas berhasil diunggah.']);
-      //
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
-    }
+
+    return response()->json(['gagal' => 'Berkas gagal diunggah.']);
   }
 }
