@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SuratKeluarEditRequest;
 use App\Services\Datatables\SuratKeluarTableService;
 use App\Services\KodeKlasifikasiService;
 use App\Services\SpesimenService;
@@ -67,73 +68,50 @@ class SuratKeluarController extends Controller
 
   public function manualcheck(Request $request): JsonResponse
   {
-    $from = date(date("Y", strtotime($request->data)) . '-01-01');
-    $to = date($request->data);
-
-    $nomor = SuratKeluar::whereBetween('date', [$from, $to])->max('nomor') ?? 1;
-    return response()->json(['data' => $nomor]);
+    return $this->service->check((object) $request->all());
   }
 
-  public function edit(SuratKeluar $suratkeluar): JsonResponse|string
+  public function edit($suratkeluar): JsonResponse|string
   {
-    $klasArr = [];
-    foreach (KodeKlasifikasi::get(['id', 'kode', 'name', 'desc']) as $item) {
-      array_push($klasArr, [
-        'id' => $item->id,
-        'name' => $item->kode . ', ' . $item->name . ', ' . $item->desc,
-      ]);
-    }
-
     $data = [
-      'options' => SelectOptions::getSurat(),
-      'klasifikasis' => collect($klasArr),
-      'spesimens' => Spesimen::get(['id', 'name']),
-      'pegawai' => Pegawai::get(['id', 'name']),
+      'klasifikasis' => app(KodeKlasifikasiService::class)->getSelectionData(),
+      'spesimens' => app(SpesimenService::class)->getAll(),
+      'data' => $this->service->find($suratkeluar),
     ];
 
-    return json_encode([
-      'data' => view('suratkeluar.edit', [
-        'data' => $suratkeluar,
-      ] + $data)->render()
-    ]);
+    return json_encode(['data' => view('suratkeluar.edit', $data)->render()]);
   }
 
-  public function update(SuratKeluarRequest $request, SuratKeluar $suratkeluar): JsonResponse
+  public function update(SuratKeluarEditRequest $request, $suratkeluar): JsonResponse
   {
     try {
-      // Update SuratKeluar
-      $suratkeluar->update(SuratKeluarHelper::edit($request, $suratkeluar->nomor));
+      $suratkeluar = $this->service->update($suratkeluar, (object) $request->validated());
+      return response()->json(['sukses' => 'Data berhasil diubah. <p class="text-primary"> Nomor Surat : ' . $suratkeluar->full_nomor . '</p>']);
 
-      // Sync pegawai to suratkeluar
-      $suratkeluar->pegawais()->sync($request->pegawai);
-
-      return response()->json(['sukses' => 'Data berhasil diubah.']);
-      //
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
+    } catch (QueryException $e) {
+      $errorCode = $e->errorInfo[1];
+      if ($errorCode == 1062) {
+        // we have a duplicate entry problem
+        return response()->json(['gagal' => 'Kombinasi nomor surat sudah ada sebelumnya.']);
+      }
+      return response()->json(['gagal' => 'Data gagal diubah.']);
     }
   }
 
-  public function destroy(SuratKeluar $suratkeluar): JsonResponse
+  public function destroy($suratkeluar): JsonResponse
   {
-    try {
-      // Delete SuratKeluar
-      $suratkeluar->delete();
+    if ($this->service->delete($suratkeluar))
       return response()->json(['sukses' => 'Data berhasil dihapus.']);
-      //
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
-    }
+
+    return response()->json(['gagal' => 'Data gagal dihapus.']);
   }
 
-  public function multdelete(Request $request)
+  public function multdelete(Request $request): JsonResponse
   {
-    try {
-      SuratKeluar::whereIn('id', $request->post('ids'))->delete();
-      return response()->json(['sukses' => count($request->post('ids')) . ' Data berhasil dihapus.']);
-    } catch (\Throwable $th) {
-      return response()->json(['gagal' => (string) $th]);
-    }
+    if ($this->service->multipleDelete($request->post('ids')))
+      return response()->json(['sukses' => 'Data berhasil ditambahkan.']);
+
+    return response()->json(['gagal' => 'Data gagal ditambahkan.']);
   }
 
   public function berkas(SuratKeluar $suratkeluar): JsonResponse|string

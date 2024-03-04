@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\KategoriSuratEnum;
 use App\Models\SuratKeluar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,12 +17,32 @@ class SuratKeluarRepository extends BaseRepository
 
   public function table(): Builder
   {
-    return $this->model->select(['id', 'nomor', 'full_nomor', 'perihal', 'tujuan', 'date', 'created_at'])->with('media')->orderBy('id', 'DESC');
+    return $this->model
+      ->select(['id', 'nomor', 'full_nomor', 'perihal', 'tujuan', 'date', 'created_at'])
+      ->with('media')
+      ->orderBy('id', 'DESC');
   }
 
-  public function getLastNomorByCurrentYear(): int
+  public function getLastNomorByCurrentYear(): ?int
   {
-    return $this->model->whereYear('date', date('Y'))->max('nomor') + 1;
+    $nomor = $this->model
+      ->whereYear('date', date('Y'))
+      ->whereNull('sisipan')
+      ->orderByDesc('id')
+      ->first()
+      ->nomor ?? 0;
+    return $nomor + 1;
+  }
+  public function getLastNomorByCurrentYear_SK(): ?int
+  {
+    $nomor = $this->model
+      ->whereYear('date', date('Y'))
+      ->where('kategori', KategoriSuratEnum::SURAT_KEPUTUSAN->value)
+      ->whereNull('sisipan')
+      ->orderByDesc('id')
+      ->first()
+      ->nomor ?? 0;
+    return $nomor + 1;
   }
 
   public function getLastNomorBetween(Carbon $fisrtDate, Carbon $lastDate): ?int
@@ -34,9 +55,34 @@ class SuratKeluarRepository extends BaseRepository
       ->nomor ?? null;
   }
 
+  public function getLastNomorBetween_SK(Carbon $fisrtDate, Carbon $lastDate): ?int
+  {
+    return $this->model
+      ->whereBetween('date', [$fisrtDate, $lastDate])
+      ->whereNull('sisipan')
+      ->where('kategori', KategoriSuratEnum::SURAT_KEPUTUSAN->value)
+      ->orderByDesc('id')
+      ->first()
+      ->nomor ?? null;
+  }
+
   public function getLastSisipanByNomor(int $nomor): ?string
   {
-    return $this->model->where('nomor', $nomor)->orderByDesc('id')->first()->sisipan ?? null;
+    return $this->model
+      ->where('nomor', $nomor)
+      ->orderByDesc('id')
+      ->first()
+      ->sisipan ?? null;
+  }
+
+  public function getLastSisipanByNomor_SK(int $nomor): ?string
+  {
+    return $this->model
+      ->where('nomor', $nomor)
+      ->where('kategori', KategoriSuratEnum::SURAT_KEPUTUSAN->value)
+      ->orderByDesc('id')
+      ->first()
+      ->sisipan ?? null;
   }
 
   public function store(stdClass $data): SuratKeluar
@@ -62,24 +108,17 @@ class SuratKeluarRepository extends BaseRepository
     ]);
   }
 
-  /*
-  public function update(int $id, stdClass $request): SuratKeluar
+  public function update(int $id, stdClass $data): SuratKeluar
   {
     return tap($this->find($id))->update([
-      'name' => $request->name,
-      'email' => $request->email,
-      'password' => $request->password,
-      'role_id' => $request->role_id,
+      'klasifikasi_id' => $data->klasifikasi_id,
+      'perihal' => $data->perihal,
+      'sifat' => $data->sifat,
+      'spesimen_id' => $data->spesimen_id,
+      'asal' => $data->asal,
+      'tujuan' => $data->tujuan,
+      'desc' => $data->desc,
+      'full_nomor' => $data->full_nomor,
     ]);
   }
-
-  public function updateWithoutPwd(int $id, stdClass $request): SuratKeluar
-  {
-    return tap($this->find($id))->update([
-      'name' => $request->name,
-      'email' => $request->email,
-      'role_id' => $request->role_id,
-    ]);
-  }
-  */
 }

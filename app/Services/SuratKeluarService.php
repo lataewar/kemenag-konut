@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
+use App\Enums\KategoriSuratEnum;
 use App\Enums\SifatSuratEnum;
-use App\Http\Requests\SuratKeluarRequest;
 use App\Models\SuratKeluar;
 use App\Repositories\SuratKeluarRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use stdClass;
 
 class SuratKeluarService
@@ -17,47 +18,68 @@ class SuratKeluarService
   ) {
   }
 
-  private function getKombinasi(stdClass $data): stdClass
+  public function find(int $id): Model
+  {
+    return $this->repository->find($id);
+  }
+
+  private function getKombinasiNomor(stdClass $data): stdClass
   {
     $kis = app(KodeInstansiService::class)->getKode();
     $kkl = app(KodeKlasifikasiService::class)->getKode($data->klasifikasi_id);
-    $tgl = Carbon::createFromFormat('Y-m-d', $data->date)->isoFormat('/MM/Y');
+    $month = Carbon::createFromFormat('Y-m-d', $data->date)->isoFormat('/MM');
+    $year = Carbon::createFromFormat('Y-m-d', $data->date)->isoFormat('/Y');
     $sifat = ($data->sifat == SifatSuratEnum::BIASA->value) ? 'B-' : '';
 
     $sisipan = $data->sisipan ? '.' . $data->sisipan : '';
 
-    $data->kombinasi = $data->nomor . $sisipan . '/' . $kis . $tgl;
-    $data->full_nomor = $sifat . $data->nomor . $sisipan . '/' . $kis . '/' . $kkl . $tgl;
+    $data->kombinasi = $data->nomor . $sisipan . '/' . $kis . $year;
+    $data->full_nomor = $sifat . $data->nomor . $sisipan . '/' . $kis . '/' . $kkl . $month . $year;
 
     return $data;
   }
 
-  public function store(stdClass $data): SuratKeluar
+  private function getKombinasiNomor_SK(stdClass $data): stdClass
   {
-    $date = Carbon::parse($data->date)->startOfDay();
-    $today = Carbon::now()->startOfDay();
+    $year = Carbon::createFromFormat('Y-m-d', $data->date)->isoFormat('/Y');
+    $sisipan = $data->sisipan ? '.' . $data->sisipan : '';
 
-    // if - date > today
-    abort_if($date->gt($today), 422);
+    $data->kombinasi = $data->nomor . $sisipan . '/' . 'SK/' . $year;
+    $data->full_nomor = $data->nomor . $sisipan;
+
+    return $data;
+  }
+
+  private function getSuratKeluar(stdClass $data, Carbon $date, Carbon $today): stdClass
+  {
+    $isNomorBiasa = $data->kategori == KategoriSuratEnum::SURAT_KELUAR->value;
 
     // if Otomatis
     if ($data->is_otomatis) {
       $nomor = null;
       $sisipan = null;
 
+
       // if - date = today
-      if ($date->eq($today))
-        $nomor = $this->repository->getLastNomorByCurrentYear();
+      if ($date->eq($today)) {
+        $nomor = $isNomorBiasa ?
+          $this->repository->getLastNomorByCurrentYear() :
+          $this->repository->getLastNomorByCurrentYear_SK();
+      }
 
       // if - date < today
       else if ($date->lt($today)) {
         $firstDateOfYear = Carbon::parse($data->date)->startOfYear();
-        $lastSurat = $this->repository->getLastNomorBetween($firstDateOfYear, $date);
+        $lastSurat = $isNomorBiasa ?
+          $this->repository->getLastNomorBetween($firstDateOfYear, $date) :
+          $this->repository->getLastNomorBetween_SK($firstDateOfYear, $date);
 
         // if - last_num not exist (there is no surat by the beginning of the year - but there is surat after the taken date)
         if (!$lastSurat) {
           $nomor = 1;
-          $sisipan = $this->repository->getLastSisipanByNomor($nomor);
+          $sisipan = $isNomorBiasa ?
+            $this->repository->getLastSisipanByNomor($nomor) :
+            $this->repository->getLastSisipanByNomor_SK($nomor);
 
           //  if - sisipan not exist
           if (!$sisipan) {
@@ -74,11 +96,18 @@ class SuratKeluarService
         // else if - last_num exist (there is surat before the taken date)
         else {
           $nextDate = $date->addDay();
-          $sisipan = $this->repository->getLastSisipanByNomor($lastSurat);
+          $sisipan = $isNomorBiasa ?
+            $this->repository->getLastSisipanByNomor($lastSurat) :
+            $this->repository->getLastSisipanByNomor_SK($lastSurat);
+
           $nomor = $lastSurat;
 
           //  if - (last_num + 1) not exist (there is no surat after between the next taken date and today)
-          if (!$this->repository->getLastNomorBetween($nextDate, $today)) {
+          $isNextExist = $isNomorBiasa ?
+            $this->repository->getLastNomorBetween($nextDate, $today) :
+            $this->repository->getLastNomorBetween_SK($nextDate, $today);
+
+          if (!$isNextExist) {
             //  last_num + 1
             $nomor = $lastSurat + 1;
           }
@@ -101,24 +130,50 @@ class SuratKeluarService
       $data->sisipan = $sisipan;
     }
 
-    $data = $this->getKombinasi($data);
+    $data = $isNomorBiasa ? $this->getKombinasiNomor($data) : $this->getKombinasiNomor_SK($data);
+
+    return $data;
+  }
+
+  public function check(stdClass $data): JsonResponse
+  {
+    $isNomorBiasa = $data->kategori == KategoriSuratEnum::SURAT_KELUAR->value;
+    $firstDateOfYear = Carbon::parse($data->data)->startOfYear();
+    $date = Carbon::parse($data->data)->startOfDay();
+
+    $nomor = ($isNomorBiasa ?
+      $this->repository->getLastNomorBetween($firstDateOfYear, $date) :
+      $this->repository->getLastNomorBetween_SK($firstDateOfYear, $date)) ?? 1;
+
+    return response()->json(['data' => $nomor]);
+  }
+
+  public function store(stdClass $data): SuratKeluar
+  {
+    $date = Carbon::parse($data->date)->startOfDay();
+    $today = Carbon::now()->startOfDay();
+
+    // if - date > today
+    abort_if($date->gt($today), 422);
+
+    $data = $this->getSuratKeluar($data, $date, $today);
 
     return $this->repository->store($data);
   }
 
-  public function find(int $id): Model
+  public function update(int $id, stdClass $object): SuratKeluar
   {
-    return $this->repository->find($id);
-  }
+    $data = $this->find($id);
 
-  /*
-  public function update(int $id, SuratKeluarRequest $request): SuratKeluar
-  {
-    $data = (object) $request->validated();
-    if (isset($data->password)) {
-      return $this->repository->update($id, $data);
-    }
-    return $this->repository->updateWithoutPwd($id, $data);
+    $object->date = $data->date;
+    $object->sisipan = $data->sisipan;
+    $object->nomor = $data->nomor;
+
+    $object = $data->kategori->isSuratKeluar() ?
+      $this->getKombinasiNomor($object) :
+      $this->getKombinasiNomor_SK($object);
+
+    return $this->repository->update($id, $object);
   }
 
   public function delete(int $id): bool
@@ -129,5 +184,5 @@ class SuratKeluarService
   public function multipleDelete(array $ids): bool
   {
     return $this->repository->multipleDelete($ids);
-  }*/
+  }
 }
