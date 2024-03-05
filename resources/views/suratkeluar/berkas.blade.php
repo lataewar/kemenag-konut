@@ -9,7 +9,7 @@
       <div class="card-body">
         <div class="form-group">
           <label>Nomor Surat</label>
-          <input type="text" class="form-control" disabled="disabled" value="{{ $data->kombinasi }}" />
+          <input type="text" class="form-control" disabled="disabled" value="{{ $data->full_nomor }}" />
         </div>
         <div class="form-group">
           <label>Perihal</label>

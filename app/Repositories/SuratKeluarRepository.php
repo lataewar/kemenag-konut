@@ -6,6 +6,7 @@ use App\Enums\KategoriSuratEnum;
 use App\Models\SuratKeluar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use stdClass;
 
 class SuratKeluarRepository extends BaseRepository
@@ -21,6 +22,14 @@ class SuratKeluarRepository extends BaseRepository
       ->select(['id', 'nomor', 'full_nomor', 'perihal', 'tujuan', 'date', 'created_at'])
       ->with('media')
       ->orderBy('id', 'DESC');
+  }
+
+  public function getdataBetween(Carbon $fisrtDate, Carbon $lastDate): Collection
+  {
+    return $this->model
+      ->whereBetween('date', [$fisrtDate, $lastDate])
+      ->orderByDesc('date')
+      ->get();
   }
 
   public function getLastNomorByCurrentYear(): ?int

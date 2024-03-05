@@ -197,7 +197,7 @@ class SuratKeluarService
     DB::beginTransaction();
     try {
       $surat = $this->find($id);
-      $mediaLibService->store($surat, $data->file);
+      $mediaLibService->store($surat, $data->file, $surat->full_nomor);
 
       DB::commit();
       return true;

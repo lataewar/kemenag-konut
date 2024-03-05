@@ -62,6 +62,21 @@ https://laracasts.com/discuss/channels/eloquent/eloquent-trycatch-on-duplicate-k
 https://copyprogramming.com/howto/laravel-try-catch-integrity-duplicate-entry
 https://laracasts.com/discuss/channels/eloquent/duplicate-entry-while-using-updateorcreate
 
+medialibrary custom diractory
+https://spatie.be/docs/laravel-medialibrary/v11/advanced-usage/using-a-custom-directory-structure
+
+medialibrary cutom name with same extension
+https://github.com/spatie/laravel-medialibrary/issues/92
+https://stackoverflow.com/questions/60317861/using-spatie-media-library-how-to-rename-a-collection-of-uploaded-files
+https://github.com/spatie/laravel-medialibrary/issues/25
+https://spatie.be/docs/laravel-medialibrary/v11/api/adding-files
+https://stackoverflow.com/questions/74038791/laravel-media-library-repeating-same-value-for-file-description-field
+https://scrutinizer-ci.com/g/spatie/laravel-medialibrary/code-structure/master/class/Spatie%5CMediaLibrary%5CFileAdder%5CFileAdder
+
+laravel get file extension type
+https://stackoverflow.com/questions/38403558/get-an-image-extension-from-an-uploaded-file-in-laravel
+https://www.itsolutionstuff.com/post/how-to-get-file-extension-from-path-in-laravelexample.html
+
 
 ---------------------------------------- QUERY ----------------------------------------
 

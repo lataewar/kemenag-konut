@@ -16,7 +16,7 @@
               </label>
             </th>
             <th width="4%" class="text-center">No</th>
-            <th width="18%">Nomor Surat</th>
+            <th width="18%">Indeks / Nomor Surat</th>
             <th width="35%">Perihal</th>
             <th width="10%">Tujuan</th>
             <th width="10%">Tanggal</th>

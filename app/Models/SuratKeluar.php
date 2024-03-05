@@ -6,6 +6,7 @@ use App\Enums\KategoriSuratEnum;
 use App\Enums\SifatSuratEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -20,12 +21,12 @@ class SuratKeluar extends Model implements HasMedia
     'sifat' => SifatSuratEnum::class,
   ];
 
-  public function klasifikasi()
+  public function klasifikasi(): BelongsTo
   {
     return $this->belongsTo(KodeKlasifikasi::class, 'klasifikasi_id', 'id');
   }
 
-  public function user()
+  public function user(): BelongsTo
   {
     return $this->belongsTo(User::class);
   }

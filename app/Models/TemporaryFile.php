@@ -12,7 +12,7 @@ class TemporaryFile extends Model
 
   protected $fillable = ['filename', 'folder'];
 
-  protected static function booted()
+  protected static function booted(): void
   {
     self::deleted(function (TemporaryFile $temp) {
       Storage::disk('public')->deleteDirectory('files/tmp/' . $temp->folder);
