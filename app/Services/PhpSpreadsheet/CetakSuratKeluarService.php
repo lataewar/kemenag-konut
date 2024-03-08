@@ -20,7 +20,7 @@ class CetakSuratKeluarService extends PhpSpreadsheetService
   ) {
   }
 
-  public function cetak(stdClass $request)
+  public function cetak(stdClass $request): void
   {
     $from = Carbon::parse($request->start)->startOfDay();
     $to = Carbon::parse($request->end)->startOfDay();

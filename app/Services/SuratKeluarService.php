@@ -26,6 +26,21 @@ class SuratKeluarService
     return $this->repository->find($id);
   }
 
+  public function getCountNomorByCurrentYear(): int
+  {
+    return $this->repository->getCountNomorByCurrentYear();
+  }
+
+  public function getLastNomorByCurrentYear(): ?int
+  {
+    return $this->repository->getLastNomorByCurrentYear();
+  }
+
+  public function getLastNomorByCurrentYear_SK(): ?int
+  {
+    return $this->repository->getLastNomorByCurrentYear_SK();
+  }
+
   private function getKombinasiNomor(stdClass $data): stdClass
   {
     $kis = app(KodeInstansiService::class)->getKode();
@@ -67,8 +82,8 @@ class SuratKeluarService
       // if - date = today
       if ($date->eq($today)) {
         $nomor = $isNomorBiasa ?
-          $this->repository->getLastNomorByCurrentYear() :
-          $this->repository->getLastNomorByCurrentYear_SK();
+          $this->getLastNomorByCurrentYear() :
+          $this->getLastNomorByCurrentYear_SK();
       }
 
       // if - date < today

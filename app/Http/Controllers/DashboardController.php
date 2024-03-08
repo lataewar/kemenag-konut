@@ -2,45 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\SelectOptions;
-use App\Models\KodeKlasifikasi;
-use App\Models\Spesimen;
-use App\Models\SuratKeluar;
+use App\Services\KodeKlasifikasiService;
+use App\Services\SpesimenService;
+use App\Services\SuratKeluarService;
 
 class DashboardController extends Controller
 {
-  public function __construct()
-  {
+  public function __construct(
+    protected SuratKeluarService $service
+  ) {
     $this->middleware('isajaxreq')->except('index');
   }
 
   public function index()
   {
     return view('dashboard.index', [
-      // 'pegawai' => Pegawai::count(),
-      'suratkeluar' => SuratKeluar::whereYear('date', date("Y"))->count(),
-      'lastnomor' => SuratKeluar::whereYear('date', date("Y"))->max('nomor'),
+      'suratkeluar' => $this->service->getCountNomorByCurrentYear(),
+      'lastnomor' => $this->service->getLastNomorByCurrentYear(),
     ]);
   }
 
   public function createNomor()
   {
-    $klasArr = [];
-    foreach (KodeKlasifikasi::get(['id', 'kode', 'name', 'desc']) as $item) {
-      array_push($klasArr, [
-        'id' => $item->id,
-        'name' => $item->kode . ', ' . $item->name . ', ' . $item->desc,
-      ]);
-    }
-
     $data = [
-      'options' => SelectOptions::getSurat(),
-      'klasifikasis' => collect($klasArr),
-      'spesimens' => Spesimen::get(['id', 'name']),
+      'klasifikasis' => app(KodeKlasifikasiService::class)->getSelectionData(),
+      'spesimens' => app(SpesimenService::class)->getAll(),
     ];
 
-    return json_encode([
-      'data' => view('dashboard.createnomor', $data)->render()
-    ]);
+    return json_encode(['data' => view('dashboard.createnomor', $data)->render()]);
   }
 }

@@ -28,7 +28,7 @@ class SuratKeluar extends Model implements HasMedia
 
   public function user(): BelongsTo
   {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(User::class, 'user_id', 'id');
   }
 
   public function registerMediaCollections(): void

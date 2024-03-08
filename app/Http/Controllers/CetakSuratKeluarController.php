@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CetakSuratKeluarRequest;
 use App\Services\PhpSpreadsheet\CetakSuratKeluarService;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CetakSuratKeluarController extends Controller
@@ -20,8 +19,8 @@ class CetakSuratKeluarController extends Controller
     return view('suratkeluar.cetak');
   }
 
-  public function cetak(CetakSuratKeluarRequest $request)
+  public function cetak(CetakSuratKeluarRequest $request): void
   {
-    return $this->service->cetak((object) $request->validated());
+    $this->service->cetak((object) $request->validated());
   }
 }

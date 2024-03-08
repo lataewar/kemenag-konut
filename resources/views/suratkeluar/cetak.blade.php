@@ -5,6 +5,9 @@
 
 @section('subheader')
   <x-subheader title="Surat Keluar" route="suratkeluar.index">
+    @slot('breadcrumb')
+      <x-bc.item route="#">Cetak Surat Keluar</x-bc.item>
+    @endslot
     <div class="default-btns">
       <x-btn.a-weight-bold-svg svg="Navigation/Angle-left.svg" href="{{ route('suratkeluar.index') }}"
         class="btn-success mr-2 btn-report">

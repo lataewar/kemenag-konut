@@ -1,9 +1,11 @@
 <?php
 
+use App\Repositories\SuratKeluarRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('tes', function () {
+  /*
   // $date = Carbon::createFromFormat('Y-m-d', '2024-03-02');
   $date = Carbon::parse('2024-03-03')->startOfDay();
   $sy = Carbon::parse('2024-03-03')->startOfYear();
@@ -17,4 +19,9 @@ Route::get('tes', function () {
 
 
   dump($date->eq($today));
+  */
+
+  $data = app(SuratKeluarRepository::class)->table()->get();
+
+  return $data;
 });

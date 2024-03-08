@@ -19,9 +19,15 @@ class SuratKeluarRepository extends BaseRepository
   public function table(): Builder
   {
     return $this->model
-      ->select(['id', 'nomor', 'full_nomor', 'perihal', 'tujuan', 'date', 'created_at'])
-      ->with('media')
+      ->with(['media', 'user:id,name'])
       ->orderBy('id', 'DESC');
+  }
+
+  public function getCountNomorByCurrentYear(): int
+  {
+    return $this->model
+      ->whereYear('date', date('Y'))
+      ->count();
   }
 
   public function getdataBetween(Carbon $fisrtDate, Carbon $lastDate): Collection
