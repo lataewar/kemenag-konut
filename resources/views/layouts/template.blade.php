@@ -95,7 +95,7 @@
                     class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto"
                     id="kt_quick_user_toggle">
                     <span
-                      class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
+                      class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hai,</span>
                     <span
                       class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4">{{ auth()->user()->name }}</span>
                     <span class="symbol symbol-35">

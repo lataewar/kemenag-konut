@@ -17,9 +17,12 @@ class UserTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return
-          self::editBtn($data->id)
-          . self::deleteBtn($data->id, $data->name);
+        $strMenu = auth()->user()->can('update user') ?
+          self::editBtn($data->id) : '';
+        $strMenu .= auth()->user()->can('delete user') ?
+          self::deleteBtn($data->id, $data->name) : '';
+
+        return $strMenu;
       })
       ->addColumn('role', function ($data) {
         return $data->role_id->getLabelHTML();

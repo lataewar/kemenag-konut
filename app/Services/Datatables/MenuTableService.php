@@ -20,8 +20,13 @@ class MenuTableService extends DatatableService
         return $data->has_submenu ? self::label("Ya") : self::label("Tidak", "warning");
       })
       ->addColumn('aksi', function ($data) {
-        $hasSubmenu = $data->has_submenu ? self::btn("menu/submenu/" . $data->id, "Sub Menu") : "";
-        return $hasSubmenu . self::editBtn($data->id) . self::deleteBtn($data->id, $data->name);
+        $strMenu = $data->has_submenu ? self::btn("menu/submenu/" . $data->id, "Sub Menu") : "";
+        $strMenu .= auth()->user()->can('update menu') ?
+          self::editBtn($data->id) : '';
+        $strMenu .= auth()->user()->can('delete menu') ?
+          self::deleteBtn($data->id, $data->name) : '';
+
+        return $strMenu;
       })
       ->rawColumns(['aksi', 'has_submenu'])
       ->make();

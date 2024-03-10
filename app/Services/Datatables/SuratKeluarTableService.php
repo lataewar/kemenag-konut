@@ -17,11 +17,14 @@ class SuratKeluarTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return self::aksiDropdown(
-          self::naviItem('javascript:;', 'Unggah Berkas', "la la-file-upload", "onclick=\"berkas('" . $data->id . "')\"") .
-          self::naviItem('javascript:;', 'Ubah Data', "la la-pencil", "onclick=\"edit('" . $data->id . "')\"") .
-          self::naviItem('javascript:;', 'Hapus Data', "la la-trash", "onclick=\"destroy('" . $data->id . "', '" . $data->full_nomor . "')\"")
-        );
+        $strMenu = auth()->user()->can('create nomor') ?
+          self::naviItem('javascript:;', 'Unggah Berkas', "la la-file-upload", "onclick=\"berkas('" . $data->id . "')\"") : '';
+        $strMenu .= auth()->user()->can('update nomor') ?
+          self::naviItem('javascript:;', 'Ubah Data', "la la-pencil", "onclick=\"edit('" . $data->id . "')\"") : '';
+        $strMenu .= auth()->user()->can('delete nomor') ?
+          self::naviItem('javascript:;', 'Hapus Data', "la la-trash", "onclick=\"destroy('" . $data->id . "', '" . $data->full_nomor . "')\"") : '';
+
+        return self::aksiDropdown($strMenu);
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

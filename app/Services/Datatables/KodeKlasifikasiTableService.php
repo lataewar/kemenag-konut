@@ -17,7 +17,12 @@ class KodeKlasifikasiTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return self::editBtn($data->id) . self::deleteBtn($data->id, $data->name);
+        $strMenu = auth()->user()->can('update klasifikasi') ?
+          self::editBtn($data->id) : '';
+        $strMenu .= auth()->user()->can('delete klasifikasi') ?
+          self::deleteBtn($data->id, $data->name) : '';
+
+        return $strMenu;
       })
       ->addColumn('cb', function ($data) {
         return self::checkBox($data->id);

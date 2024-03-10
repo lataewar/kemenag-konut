@@ -190,7 +190,51 @@ class AppSeeder extends Seeder
     ]);
     $pimpinan->assignRole('pimpinan');
 
-
+    $satker = User::factory()->create([
+      'id' => 4,
+      'name' => 'Sekertariat Jenderal',
+      'email' => 'sekjen@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 4,
+      'satker_id' => 1,
+    ]);
+    $satker->assignRole('satker');
+    $satker = User::factory()->create([
+      'id' => 5,
+      'name' => 'Bimbingan Masyarakat Islam',
+      'email' => 'bimasislam@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 4,
+      'satker_id' => 2,
+    ]);
+    $satker->assignRole('satker');
+    $satker = User::factory()->create([
+      'id' => 6,
+      'name' => 'Pendidikan Islam',
+      'email' => 'pendis@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 4,
+      'satker_id' => 3,
+    ]);
+    $satker->assignRole('satker');
+    $satker = User::factory()->create([
+      'id' => 7,
+      'name' => 'Penyelenggara Haji dan Umrah',
+      'email' => 'phu@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 4,
+      'satker_id' => 4,
+    ]);
+    $satker->assignRole('satker');
+    $satker = User::factory()->create([
+      'id' => 8,
+      'name' => 'Penyelenggara Syariah Zakat dan Wakaf',
+      'email' => 'zawa@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 4,
+      'satker_id' => 5,
+    ]);
+    $satker->assignRole('satker');
 
   }
 }
