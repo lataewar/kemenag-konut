@@ -1,8 +1,12 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\User;
 use App\Repositories\SuratKeluarRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 Route::get('tes', function () {
   /*
@@ -21,7 +25,15 @@ Route::get('tes', function () {
   dump($date->eq($today));
   */
 
-  $data = app(SuratKeluarRepository::class)->table()->get();
+  // $data = app(SuratKeluarRepository::class)->table()->get();
 
-  return $data;
+  // return $data;
+
+  // $role = Role::create(['name' => 'writer']);
+  // $permission = Permission::create(['name' => 'edit articles']);
+
+  // $user = User::find(1);
+  // $user->assignRole('super admin');
+
+  echo UserRole::SUPER_ADMIN->getName();
 });

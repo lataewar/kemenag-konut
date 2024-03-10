@@ -15,6 +15,12 @@ class KodeKlasifikasiController extends Controller
     protected KodeKlasifikasiService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create klasifikasi')->only(['create', 'store']);
+    $this->middleware('permission:read klasifikasi')->only(['index', 'dt']);
+    $this->middleware('permission:update klasifikasi')->only(['edit', 'update']);
+    $this->middleware('permission:delete klasifikasi')->only(['destroy']);
+    $this->middleware('permission:multidelete klasifikasi')->only(['multdelete']);
   }
 
   public function index(): View

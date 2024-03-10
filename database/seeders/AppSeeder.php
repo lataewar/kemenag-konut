@@ -2,11 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\KodeInstansi;
 use App\Models\Menu;
+use App\Models\Satker;
 use App\Models\SubMenu;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AppSeeder extends Seeder
 {
@@ -25,7 +29,15 @@ class AppSeeder extends Seeder
 
     SubMenu::insert([
       [
-        'id' => 4,
+        'id' => 5,
+        'menu_id' => 2,
+        'name' => 'Satuan Kerja',
+        'route' => 'satker.index',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
+      [
+        'id' => 6,
         'menu_id' => 2,
         'name' => 'Kode Instansi',
         'route' => 'kdins.index',
@@ -33,7 +45,7 @@ class AppSeeder extends Seeder
         'updated_at' => now(),
       ],
       [
-        'id' => 5,
+        'id' => 7,
         'menu_id' => 2,
         'name' => 'Kode Klasifikasi',
         'route' => 'kdkla.index',
@@ -41,7 +53,7 @@ class AppSeeder extends Seeder
         'updated_at' => now(),
       ],
       [
-        'id' => 6,
+        'id' => 8,
         'menu_id' => 2,
         'name' => 'Pejabat Spesimen',
         'route' => 'spesimen.index',
@@ -63,5 +75,122 @@ class AppSeeder extends Seeder
       ['menu_id' => 2, 'role_id' => 1],
       ['menu_id' => 3, 'role_id' => 1],
     ]);
+
+    // ------------------------------  ------------------------------ //
+
+    Satker::insert([
+      [
+        'id' => 1,
+        'name' => 'Sekertariat Jenderal',
+        'kode' => '-',
+        'desc' => 'Sekertariat Jenderal',
+      ],
+      [
+        'id' => 2,
+        'name' => 'Bimbingan Masyarakat Islam',
+        'kode' => '-',
+        'desc' => 'Bimbingan Masyarakat Islam',
+      ],
+      [
+        'id' => 3,
+        'name' => 'Pendidikan Islam',
+        'kode' => '-',
+        'desc' => 'Pendidikan Islam',
+      ],
+      [
+        'id' => 4,
+        'name' => 'Penyelenggara Haji dan Umrah',
+        'kode' => '-',
+        'desc' => 'Penyelenggara Haji dan Umrah',
+      ],
+      [
+        'id' => 5,
+        'name' => 'Penyelenggara Syariah Zakat dan Wakaf',
+        'kode' => '-',
+        'desc' => 'Penyelenggara Syariah Zakat dan Wakaf',
+      ],
+    ]);
+
+    // ------------------------------  ------------------------------ //
+
+    $permissions = ['create satker', 'read satker', 'update satker', 'delete satker', 'multidelete satker'];
+    $permissions = [...$permissions, ...['read instansi', 'update instansi']];
+    $permissions = [...$permissions, ...['create klasifikasi', 'read klasifikasi', 'update klasifikasi', 'delete klasifikasi', 'multidelete klasifikasi']];
+    $permissions = [...$permissions, ...['create spesimen', 'read spesimen', 'update spesimen', 'delete spesimen', 'multidelete spesimen']];
+    $permissions = [...$permissions, ...['create nomor', 'read nomor', 'update nomor', 'delete nomor', 'multidelete nomor', 'print nomor']];
+
+    foreach ($permissions as $item) {
+      Permission::create(['name' => $item]);
+    }
+
+    $role = Role::findByName('super admin');
+    $role->givePermissionTo($permissions);
+
+    // ------------------------------  ------------------------------ //
+
+    $adminPermissions = [...['read menu', 'read permission', 'read role', 'create user', 'read user', 'update user', 'delete user', 'multidelete user'], ...$permissions];
+    \App\Models\Role::create([
+      'id' => 2,
+      'name' => 'admin',
+      'guard_name' => 'web',
+      'desc' => 'Administrator',
+    ]);
+    $role = Role::findByName('admin');
+    $role->givePermissionTo($adminPermissions);
+
+    \App\Models\Role::create([
+      'id' => 3,
+      'name' => 'pimpinan',
+      'guard_name' => 'web',
+      'desc' => 'Pimpinan',
+    ]);
+    $role = Role::findByName('pimpinan');
+    $role->givePermissionTo($adminPermissions);
+
+    \App\Models\Role::create([
+      'id' => 4,
+      'name' => 'satker',
+      'guard_name' => 'web',
+      'desc' => 'Satuan Kerja',
+    ]);
+    $role = Role::findByName('satker');
+    $role->givePermissionTo(['create nomor', 'read nomor', 'update nomor', 'delete nomor', 'print nomor']);
+
+    // ------------------------------  ------------------------------ //
+
+    DB::table('menu_role')->insert([
+      ['menu_id' => 1, 'role_id' => 2],
+      ['menu_id' => 2, 'role_id' => 2],
+      ['menu_id' => 3, 'role_id' => 2],
+
+      ['menu_id' => 1, 'role_id' => 3],
+      ['menu_id' => 2, 'role_id' => 3],
+      ['menu_id' => 3, 'role_id' => 3],
+
+      ['menu_id' => 3, 'role_id' => 4],
+    ]);
+
+    // ------------------------------  ------------------------------ //
+
+    $admin = User::factory()->create([
+      'id' => 2,
+      'name' => 'Administrator',
+      'email' => 'admin@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 2,
+    ]);
+    $admin->assignRole('admin');
+
+    $pimpinan = User::factory()->create([
+      'id' => 3,
+      'name' => 'Kepala Kantor',
+      'email' => 'pimpinan@admin.com',
+      'password' => Hash::make('12345678'),
+      'role_id' => 3,
+    ]);
+    $pimpinan->assignRole('pimpinan');
+
+
+
   }
 }

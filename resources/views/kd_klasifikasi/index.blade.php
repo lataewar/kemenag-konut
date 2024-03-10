@@ -10,11 +10,15 @@
       <x-bc.item route="#">Data</x-bc.item>
     @endslot
     <div class="default-btns">
-      <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;" class="btn-danger mr-2 btn-multdelete">
-        Hapus Terpilih</x-btn.weight-bold-svg>
+      @can('multidelete klasifikasi')
+        <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;" class="btn-danger mr-2 btn-multdelete">
+          Hapus Terpilih</x-btn.weight-bold-svg>
+      @endcan
 
-      <x-btn.weight-bold-svg svg="Design/Flatten.svg" onclick="create()" class="btn-success btn-create">
-        Tambah Data</x-btn.weight-bold-svg>
+      @can('create klasifikasi')
+        <x-btn.weight-bold-svg svg="Design/Flatten.svg" onclick="create()" class="btn-success btn-create">
+          Tambah Data</x-btn.weight-bold-svg>
+      @endcan
     </div>
     <x-btn.weight-bold-svg svg="Navigation/Angle-left.svg" style="display: none;" class="btn-primary ml-2 btn-back">
       Kembali</x-btn.weight-bold-svg>

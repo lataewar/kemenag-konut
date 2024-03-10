@@ -27,6 +27,13 @@
               @slot('items', \App\Enums\UserRole::toArray())
               @slot('current', $data->role_id)
             </x-form.select-static-stack>
+            <div class="div-satker" @if (!$data->role_id->isSatker()) style="display: none;" @endif>
+              <x-form.select-static-stack name="satker_id" id="satker_id">
+                Satuan Kerja<x-redstar />
+                @slot('items', $satkers)
+                @slot('current', $data->satker_id)
+              </x-form.select-static-stack>
+            </div>
           </div>
         </div>
       </div>

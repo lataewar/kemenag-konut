@@ -5,8 +5,9 @@ namespace App\Services;
 use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use App\Repositories\MenuRepository;
+use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Spatie\Permission\Contracts\Role as RoleContract;
 
 class RoleService
 {
@@ -18,6 +19,11 @@ class RoleService
   public function find(int $id): Role
   {
     return $this->repository->find($id);
+  }
+
+  public function findSpatieRole(int $id): RoleContract
+  {
+    return $this->repository->findSpatieRole($id);
   }
 
   public function store(RoleRequest $request): Role
@@ -36,7 +42,7 @@ class RoleService
     return $this->repository->delete($id);
   }
 
-  public function createAkses(int $id)
+  public function createAkses(int $id): array
   {
     $menuRepo = app(MenuRepository::class);
     return [
@@ -47,8 +53,24 @@ class RoleService
     ];
   }
 
-  public function syncAkses(int $id, array $menus)
+  public function syncAkses(int $id, array $menus): array
   {
     return $this->repository->syncMenus($id, $menus);
+  }
+
+  public function createPermission(int $id): array
+  {
+    return [
+      'app' => (object) [
+        'id' => $id,
+        'data' => $this->repository->getSpatiePermission($id),
+        'permissions' => app(PermissionRepository::class)->getAllPluck(),
+      ]
+    ];
+  }
+
+  public function syncPermission(int $id, array $permissions): RoleContract
+  {
+    return $this->repository->syncSpatiePermission($id, $permissions);
   }
 }

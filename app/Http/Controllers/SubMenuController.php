@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SubMenu;
 use App\Models\Menu;
-use App\Helpers\DtHelper;
 use App\Http\Requests\SubMenuRequest;
 use App\Services\Datatables\SubMenuTableService;
 use App\Services\SubMenuService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Yajra\DataTables\DataTables as DataTables;
 
 class SubMenuController extends Controller
 {
@@ -18,6 +15,11 @@ class SubMenuController extends Controller
     protected SubMenuService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create menu')->only(['create', 'store']);
+    $this->middleware('permission:read menu')->only(['index', 'dt']);
+    $this->middleware('permission:update menu')->only(['edit', 'update']);
+    $this->middleware('permission:delete menu')->only(['destroy']);
   }
 
   public function index(Menu $menu): View

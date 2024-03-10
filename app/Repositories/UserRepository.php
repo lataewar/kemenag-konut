@@ -27,6 +27,7 @@ class UserRepository extends BaseRepository
       'email' => $request->email,
       'password' => Hash::make($request->password),
       'role_id' => $request->role_id,
+      'satker_id' => $request->satker_id,
     ]);
   }
 
@@ -37,6 +38,7 @@ class UserRepository extends BaseRepository
       'email' => $request->email,
       'password' => $request->password,
       'role_id' => $request->role_id,
+      'satker_id' => $request->satker_id,
     ]);
   }
 
@@ -46,6 +48,7 @@ class UserRepository extends BaseRepository
       'name' => $request->name,
       'email' => $request->email,
       'role_id' => $request->role_id,
+      'satker_id' => $request->satker_id,
     ]);
   }
 }

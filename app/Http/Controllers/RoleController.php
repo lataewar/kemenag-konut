@@ -15,6 +15,13 @@ class RoleController extends Controller
     protected RoleService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create role')->only(['create', 'store']);
+    $this->middleware('permission:read role')->only(['index', 'dt', 'createAkses', 'createPermission']);
+    $this->middleware('permission:setakses role')->only(['syncAkses']);
+    $this->middleware('permission:setpermission role')->only(['syncPermission']);
+    $this->middleware('permission:update role')->only(['edit', 'update']);
+    $this->middleware('permission:delete role')->only(['destroy']);
   }
 
   public function index(): View
@@ -46,6 +53,21 @@ class RoleController extends Controller
       return response()->json(['sukses' => 'berhasil mengubah hak akses.']);
 
     return response()->json(['gagal' => 'gagal mengubah hak akses.']);
+  }
+
+  public function createPermission($role): JsonResponse|string
+  {
+    return json_encode([
+      'data' => view('role.izin', $this->service->createPermission($role))->render()
+    ]);
+  }
+
+  public function syncPermission($role, Request $request): JsonResponse
+  {
+    if ($this->service->syncPermission($role, $request->permissions ?? []))
+      return response()->json(['sukses' => 'berhasil mengubah izin.']);
+
+    return response()->json(['gagal' => 'gagal mengubah izin.']);
   }
 
   public function create(): JsonResponse|string

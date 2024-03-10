@@ -21,16 +21,19 @@ class UserService
 
   public function store(UserRequest $request): User
   {
-    return $this->repository->store((object) $request->validated());
+    $user = $this->repository->store((object) $request->validated());
+    $user->syncRoles($user->role_id->getName());
+    return $user;
   }
 
   public function update(int $id, UserRequest $request): User
   {
-    $data = (object) $request->validated();
-    if (isset($data->password)) {
-      return $this->repository->update($id, $data);
-    }
-    return $this->repository->updateWithoutPwd($id, $data);
+    $user = isset($data->password) ?
+      $this->repository->update($id, (object) $request->validated()) :
+      $this->repository->updateWithoutPwd($id, (object) $request->validated());
+
+    $user->syncRoles($user->role_id->getName());
+    return $user;
   }
 
   public function delete(int $id): bool

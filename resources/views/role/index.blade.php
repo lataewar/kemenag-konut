@@ -10,11 +10,10 @@
       <x-bc.item route="#">Data</x-bc.item>
     @endslot
     <div class="default-btns">
-      <x-btn.weight-bold-svg svg="General/Trash.svg" style="display: none;" class="btn-danger mr-2 btn-multdelete">
-        Hapus Terpilih</x-btn.weight-bold-svg>
-
-      <x-btn.weight-bold-svg svg="Design/Flatten.svg" onclick="create()" class="btn-success btn-create">
-        Tambah Data</x-btn.weight-bold-svg>
+      @can('create role')
+        <x-btn.weight-bold-svg svg="Design/Flatten.svg" onclick="create()" class="btn-success btn-create">
+          Tambah Data</x-btn.weight-bold-svg>
+      @endcan
     </div>
     <x-btn.weight-bold-svg svg="Navigation/Angle-left.svg" style="display: none;" class="btn-primary ml-2 btn-back">
       Kembali</x-btn.weight-bold-svg>
@@ -52,12 +51,16 @@
         name: 'menus_count'
       },
       {
+        data: 'permissions_count',
+        name: 'permissions_count'
+      },
+      {
         data: 'aksi',
         name: 'aksi'
       },
     ];
     const columnDefs = [{
-        targets: [0, 3, 4],
+        targets: [0, 3, 4, 5],
         orderable: false,
         className: 'text-center'
       },
@@ -80,6 +83,29 @@
     const akses = function(id) {
       ajaxCall(
         urx + '/' + id + '/akses',
+        'get',
+        null,
+        'json',
+        function() {
+          loader('show');
+        },
+        function() {
+          $('.viewtable').hide();
+          loader('hide');
+        },
+        function(response) {
+          if (response.data) {
+            back('show', 'Role Akses');
+            $('.viewform').html(response.data).show();
+            initBootsrap();
+          }
+        }
+      );
+    };
+
+    const izin = function(id) {
+      ajaxCall(
+        urx + '/' + id + '/permission',
         'get',
         null,
         'json',

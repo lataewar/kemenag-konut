@@ -1,42 +1,42 @@
-const urx = $('#urx').val();
+const urx = $("#urx").val();
 const loader = function (type, delay = 250) {
-  if (type === 'show') {
-    $('#status_').fadeIn('fast');
-    $('#preloader_').fadeIn('fast');
+  if (type === "show") {
+    $("#status_").fadeIn("fast");
+    $("#preloader_").fadeIn("fast");
   } else {
-    $('#status_').fadeOut();
-    $('#preloader_').delay(delay).fadeOut('slow');
+    $("#status_").fadeOut();
+    $("#preloader_").delay(delay).fadeOut("slow");
   }
 };
 
-const back = function (type, title = '') {
-  $('.bc-title').text(title);
-  if (type === 'show') {
-    $('.default-btns').hide();
-    $('.btn-back').show();
-    $('.bc-dot').show();
-    $('.bc-title').show();
+const back = function (type, title = "") {
+  $(".bc-title").text(title);
+  if (type === "show") {
+    $(".default-btns").hide();
+    $(".btn-back").show();
+    $(".bc-dot").show();
+    $(".bc-title").show();
   } else {
-    $('.default-btns').show();
-    $('.btn-back').hide();
-    $('.bc-dot').hide();
-    $('.bc-title').hide();
+    $(".default-btns").show();
+    $(".btn-back").hide();
+    $(".bc-dot").hide();
+    $(".bc-title").hide();
   }
 };
 
 const backEvent = function () {
-  $(document).on('click', '.btn-back', function (e) {
-    $('.viewform').html('');
-    $('.viewtable').show('fast');
-    back('hide');
+  $(document).on("click", ".btn-back", function (e) {
+    $(".viewform").html("");
+    $(".viewtable").show("fast");
+    back("hide");
   });
 };
 
 const toggleMBD = function () {
-  if ($('.check-id:checked').length) {
-    $('.btn-multdelete').show();
+  if ($(".check-id:checked").length) {
+    $(".btn-multdelete").show();
   } else {
-    $('.btn-multdelete').hide();
+    $(".btn-multdelete").hide();
   }
 };
 
@@ -46,9 +46,9 @@ const sweetAlert = function (title, text, icon) {
     html: text,
     icon,
     buttonsStyling: false,
-    confirmButtonText: 'Ya, Saya Mengerti!',
+    confirmButtonText: "Ya, Saya Mengerti!",
     customClass: {
-      confirmButton: 'btn btn-primary',
+      confirmButton: "btn btn-primary",
     },
     timer: 10000,
   });
@@ -56,11 +56,11 @@ const sweetAlert = function (title, text, icon) {
 
 const succeedRes = function (response, type = 1) {
   if (response.sukses) {
-    if (type) back('hide');
+    if (type) back("hide");
     showData();
-    sweetAlert('Sukses', response.sukses, 'success');
+    sweetAlert("Sukses", response.sukses, "success");
   } else {
-    sweetAlert('Gagal', response.gagal, 'error');
+    sweetAlert("Gagal", response.gagal, "error");
   }
 };
 
@@ -68,14 +68,14 @@ const validate = function (error) {
   let arrError = [];
   for (const prop in error) {
     arrError.push(prop);
-    $('#' + prop).addClass('is-invalid');
-    $('.error-' + prop).html(error[prop]);
+    $("#" + prop).addClass("is-invalid");
+    $(".error-" + prop).html(error[prop]);
   }
   forms
     .filter((item) => !arrError.includes(item))
     .forEach((item) => {
-      $('#' + item).removeClass('is-invalid');
-      $('.error-' + item).html('');
+      $("#" + item).removeClass("is-invalid");
+      $(".error-" + item).html("");
     });
 };
 
@@ -83,7 +83,15 @@ const initBootsrap = function () {
   KTBootstrapDatepicker.init();
 };
 
-const ajaxCall = function (url, type, data, dataType, beforeSend, complete, success) {
+const ajaxCall = function (
+  url,
+  type,
+  data,
+  dataType,
+  beforeSend,
+  complete,
+  success
+) {
   $.ajax({
     url,
     type,
@@ -93,16 +101,26 @@ const ajaxCall = function (url, type, data, dataType, beforeSend, complete, succ
     complete,
     success,
     headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     },
     error: function (xhr, ajaxOptions, thrownError) {
-      loader('hide', 400);
+      loader("hide", 400);
       if (xhr.status === 422) {
         validate(JSON.parse(xhr.responseText).errors);
       } else if (xhr.status === 419) {
-        alert('Sesi anda telah habis, silahkan login kembali');
+        sweetAlert(
+          "Gagal",
+          "Sesi anda telah habis, silahkan login kembali",
+          "error"
+        );
+      } else if (xhr.status === 403) {
+        sweetAlert(
+          "Gagal",
+          "Anda tidak memiliki akses pada fitur ini.",
+          "error"
+        );
       } else {
-        alert(xhr.status + '\n' + xhr.responseText + '\n' + thrownError);
+        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
       }
     },
   });

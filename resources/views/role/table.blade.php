@@ -11,6 +11,7 @@
           <th>Name</th>
           <th>Keterangan</th>
           <th>Jumlah Akses</th>
+          <th>Jumlah Izin</th>
           <th class="text-center">Aksi</th>
         </tr>
       </thead>

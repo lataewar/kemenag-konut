@@ -15,6 +15,12 @@ class SpesimenController extends Controller
     protected SpesimenService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create spesimen')->only(['create', 'store']);
+    $this->middleware('permission:read spesimen')->only(['index', 'dt']);
+    $this->middleware('permission:update spesimen')->only(['edit', 'update']);
+    $this->middleware('permission:delete spesimen')->only(['destroy']);
+    $this->middleware('permission:multidelete spesimen')->only(['multdelete']);
   }
 
   public function index(): View

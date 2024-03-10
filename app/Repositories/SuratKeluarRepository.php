@@ -43,6 +43,7 @@ class SuratKeluarRepository extends BaseRepository
     $nomor = $this->model
       ->whereYear('date', date('Y'))
       ->whereNull('sisipan')
+      ->where('kategori', KategoriSuratEnum::SURAT_KELUAR->value)
       ->orderByDesc('id')
       ->first()
       ->nomor ?? 0;
@@ -65,6 +66,7 @@ class SuratKeluarRepository extends BaseRepository
     return $this->model
       ->whereBetween('date', [$fisrtDate, $lastDate])
       ->whereNull('sisipan')
+      ->where('kategori', KategoriSuratEnum::SURAT_KELUAR->value)
       ->orderByDesc('id')
       ->first()
       ->nomor ?? null;

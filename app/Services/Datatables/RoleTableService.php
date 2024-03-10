@@ -17,9 +17,13 @@ class RoleTableService extends DatatableService
   {
     return DataTables::of($this->repository->table())
       ->addColumn('aksi', function ($data) {
-        return self::defaultBtn("akses", $data->id, "Akses", "General/Unlock.svg") .
-          self::editBtn($data->id) .
-          self::deleteBtn($data->id, $data->name);
+        return self::aksiDropdown(
+          self::naviItem('javascript:;', 'Akses ke Menu', "la la-icons", "onclick=\"akses('" . $data->id . "')\"") .
+          self::naviItem('javascript:;', 'Perizinan', "la la-lock-open", "onclick=\"izin('" . $data->id . "')\"") .
+          self::navSeparator() .
+          self::naviItem('javascript:;', 'Ubah Data', "la la-pencil", "onclick=\"edit('" . $data->id . "')\"") .
+          self::naviItem('javascript:;', 'Hapus Data', "la la-trash", "onclick=\"destroy('" . $data->id . "', '" . $data->name . "')\"")
+        );
       })
       ->rawColumns(['aksi'])
       ->make();

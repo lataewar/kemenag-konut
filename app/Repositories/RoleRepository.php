@@ -4,7 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as SpatieRole;
+use Spatie\Permission\Contracts\Role as RoleContract;
 use stdClass;
 
 class RoleRepository extends BaseRepository
@@ -16,13 +19,31 @@ class RoleRepository extends BaseRepository
 
   public function table(): Builder|Model
   {
-    return $this->model->withCount('menus');
+    return $this->model->withCount(['menus', 'permissions']);
+  }
+
+  public function findSpatieRole(int $id): RoleContract
+  {
+    return SpatieRole::findById($id);
+  }
+
+  public function getSpatiePermission(int $id): Collection
+  {
+    $role = $this->findSpatieRole($id);
+    return $role->permissions()->pluck('name');
+  }
+
+  public function syncSpatiePermission(int $id, array $permissions): RoleContract
+  {
+    $role = $this->findSpatieRole($id);
+    return $role->syncPermissions($permissions);
   }
 
   public function store(stdClass $request): Role
   {
     return $this->model->create([
       'name' => $request->name,
+      'guard_name' => 'web',
       'desc' => $request->desc,
     ]);
   }

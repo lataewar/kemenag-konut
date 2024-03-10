@@ -38,6 +38,16 @@ enum UserRole: int
     return $this === self::SATKER;
   }
 
+  public function getName(): string
+  {
+    return match ($this) {
+      self::SUPER_ADMIN => "super admin",
+      self::ADMIN => "admin",
+      self::PIMPINAN => "pimpinan",
+      self::SATKER => "satker",
+    };
+  }
+
   public function getLabelText(): string
   {
     return match ($this) {

@@ -13,6 +13,9 @@ class KodeInstansiController extends Controller
   public function __construct(
     protected KodeInstansiService $service
   ) {
+
+    $this->middleware('permission:read instansi')->only(['index']);
+    $this->middleware('permission:update instansi')->only(['update']);
   }
 
   public function index(): View

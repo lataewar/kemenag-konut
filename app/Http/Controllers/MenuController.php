@@ -13,6 +13,11 @@ class MenuController extends Controller
     protected MenuService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create menu')->only(['create', 'store']);
+    $this->middleware('permission:read menu')->only(['index', 'dt']);
+    $this->middleware('permission:update menu')->only(['edit', 'update']);
+    $this->middleware('permission:delete menu')->only(['destroy']);
   }
 
   public function index()

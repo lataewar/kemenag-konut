@@ -12,7 +12,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\SuratKeluarRequest;
-use App\Models\TemporaryFile;
 use Illuminate\View\View;
 
 class SuratKeluarController extends Controller
@@ -21,6 +20,12 @@ class SuratKeluarController extends Controller
     protected SuratKeluarService $service
   ) {
     $this->middleware('isajaxreq')->except('index');
+
+    $this->middleware('permission:create nomor')->only(['create', 'store', 'berkas', 'storeBerkas']);
+    $this->middleware('permission:read nomor')->only(['index', 'dt']);
+    $this->middleware('permission:update nomor')->only(['edit', 'update']);
+    $this->middleware('permission:delete nomor')->only(['destroy']);
+    $this->middleware('permission:multidelete nomor')->only(['multdelete']);
   }
 
   public function index(): View
