@@ -7,6 +7,7 @@ use App\Models\SuratKeluar;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
 class SuratKeluarRepository extends BaseRepository
@@ -16,10 +17,32 @@ class SuratKeluarRepository extends BaseRepository
     parent::__construct($x_model);
   }
 
+  public function find(int $id): ?Model
+  {
+    return $this->model
+      ->findsatker_scope()
+      ->where('surat_keluars.id', $id)
+      ->first();
+  }
+
   public function table(): Builder
   {
     return $this->model
-      ->with(['media', 'user:id,name'])
+      ->satker_scope()
+      ->select([
+        'surat_keluars.id',
+        'surat_keluars.date',
+        'surat_keluars.nomor',
+        'surat_keluars.full_nomor',
+        'surat_keluars.created_at',
+        'surat_keluars.perihal',
+        'surat_keluars.tujuan',
+        'surat_keluars.asal',
+        'users.name as user_name',
+      ])
+      ->join('users', 'users.id', '=', 'surat_keluars.user_id')
+      ->with('media')
+      ->whereYear('date', date('Y'))
       ->orderBy('id', 'DESC');
   }
 
@@ -127,15 +150,16 @@ class SuratKeluarRepository extends BaseRepository
 
   public function update(int $id, stdClass $data): SuratKeluar
   {
-    return tap($this->find($id))->update([
-      'klasifikasi_id' => $data->klasifikasi_id,
-      'perihal' => $data->perihal,
-      'sifat' => $data->sifat,
-      'spesimen_id' => $data->spesimen_id,
-      'asal' => $data->asal,
-      'tujuan' => $data->tujuan,
-      'desc' => $data->desc,
-      'full_nomor' => $data->full_nomor,
-    ]);
+    return tap($this->find($id))
+      ->update([
+        'klasifikasi_id' => $data->klasifikasi_id,
+        'perihal' => $data->perihal,
+        'sifat' => $data->sifat,
+        'spesimen_id' => $data->spesimen_id,
+        'asal' => $data->asal,
+        'tujuan' => $data->tujuan,
+        'desc' => $data->desc,
+        'full_nomor' => $data->full_nomor,
+      ]);
   }
 }

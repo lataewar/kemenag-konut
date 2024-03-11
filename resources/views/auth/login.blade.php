@@ -5,12 +5,12 @@
   <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
     <!--begin::Aside-->
     <div class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat p-10 p-lg-10"
-      style="background-image: url({{ asset('assets/media/bg/bg-8.jpg') }});">
+      style="background-image: url({{ asset('assets/media/bg/green-7.jpg') }});">
       <!--begin: Aside Container-->
       <div class="d-flex flex-row-fluid flex-column justify-content-between">
         <!--begin: Aside header-->
         <a href="#" class="flex-column-auto mt-5 pb-lg-0 pb-10">
-          <img src="{{ asset('media/logo-white-lg.png') }}" class="max-h-120px" alt="" />
+          <img src="{{ asset('media/logo-white.png') }}" class="max-h-100px" alt="" />
         </a>
         <!--end: Aside header-->
         <!--begin: Aside content-->

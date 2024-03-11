@@ -17,8 +17,8 @@
             </th>
             <th width="4%" class="text-center">No</th>
             <th width="18%">Indeks / Nomor Surat</th>
-            <th width="35%">Perihal</th>
-            <th width="10%">Tujuan / Oleh</th>
+            <th width="30%">Perihal</th>
+            <th width="15%">Tujuan / Oleh</th>
             <th width="10%">Tanggal</th>
             <th width="9%">Berkas</th>
             <th width="5%" class="text-center">Aksi</th>

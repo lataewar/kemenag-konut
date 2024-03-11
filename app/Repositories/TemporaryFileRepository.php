@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\TemporaryFile;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class TemporaryFileRepository extends BaseRepository
 {
@@ -14,5 +16,12 @@ class TemporaryFileRepository extends BaseRepository
   public function getFolder(string $uuid): ?TemporaryFile
   {
     return $this->model->where('folder', $uuid)->first();
+  }
+
+  public function deleteTemporary(): void
+  {
+    $this->model->whereTime('created_at', '<=', Carbon::now()->subMinutes(10))->get()->each(function ($item) {
+      $item->delete();
+    });
   }
 }

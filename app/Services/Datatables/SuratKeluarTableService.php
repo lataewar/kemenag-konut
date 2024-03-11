@@ -47,7 +47,7 @@ class SuratKeluarTableService extends DatatableService
       ->addColumn('tujuan', function ($data) {
         return "<div>
                   <span class='text-dark-75 font-weight-bold line-height-sm d-block pb-2 '>$data->tujuan</span>
-                  <span class='text-muted'><small>" . $data->user->name . "</small></span>
+                  <span class='text-muted'><small>" . $data->user_name . "</small></span>
                 </div>";
       })
       ->addColumn('berkas', function ($data) {

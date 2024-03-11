@@ -87,12 +87,12 @@
       },
       {
         targets: [2, 3, 4, 5],
-        orderable: true,
+        orderable: false,
         className: 'align-top font-size-xs'
       },
       {
         targets: [6],
-        orderable: true,
+        orderable: false,
         className: 'text-center align-top font-size-xs'
       },
     ];

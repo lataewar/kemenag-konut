@@ -21,7 +21,7 @@ class SuratKeluarService
   ) {
   }
 
-  public function find(int $id): Model
+  public function find(int $id): ?Model
   {
     return $this->repository->find($id);
   }

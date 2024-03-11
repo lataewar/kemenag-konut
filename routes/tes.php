@@ -3,6 +3,7 @@
 use App\Enums\UserRole;
 use App\Models\User;
 use App\Repositories\SuratKeluarRepository;
+use App\Services\SuratKeluarService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
@@ -35,5 +36,10 @@ Route::get('tes', function () {
   // $user = User::find(1);
   // $user->assignRole('super admin');
 
-  echo UserRole::SUPER_ADMIN->getName();
+  // dump(auth()->user()->satker_id);
+
+  return app(SuratKeluarService::class)->find(19);
+  return app(SuratKeluarRepository::class)->table()->get();
+
+  echo auth()->user()->role_id->isSatker();
 });
