@@ -77,6 +77,9 @@ laravel get file extension type
 https://stackoverflow.com/questions/38403558/get-an-image-extension-from-an-uploaded-file-in-laravel
 https://www.itsolutionstuff.com/post/how-to-get-file-extension-from-path-in-laravelexample.html
 
+laravel scheduler di rumahweb
+https://www.rumahweb.com/journal/running-php-artisan-laravel-menggunakan-cron-jobs-cpanel/
+
 
 ---------------------------------------- QUERY ----------------------------------------
 
@@ -113,3 +116,13 @@ VALUES
 
 ('2024-02-16', '1', '1.b/Kk.24.11/2024', 'B-1.b/Kk.24.11/BA.04/02/2024', 'b', 0, 1, 1, 8, 'Accusantium reprehen', 'Provident incidunt', 'Autem quas labore vo', 1, 'Voluptatem In volup', 1, '2024-03-02 16:20:33', '2024-03-02 16:20:33')
 ;
+
+
+---------------------------------------- SETTING SHARED HOSTING - CRON JOB ----------------------------------------
+
+* * * * * /usr/local/bin/php /home/kemz7242/public_html/artisan schedule:run >> /dev/null 2>&1
+
+* * * * * = run every minute
+/usr/local/bin/php = manually locate php file
+/home/kemz7242/public_html/artisan = manually locate artisan file
+kemz7242 = shared hosting username or homename
