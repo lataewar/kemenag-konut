@@ -11,7 +11,7 @@
               <!--begin::Tiles Widget 12-->
               <div class="card card-custom gutter-b" style="height: 150px">
                 <div class="card-body">
-                  <span class="svg-icon svg-icon-3x svg-icon-success">
+                  <span class="svg-icon svg-icon-3x svg-icon-primary">
                     {!! file_get_contents('assets/media/svg/icons/Communication/Thumbtack.svg') !!}
                   </span>
                   <div class="text-dark font-weight-bolder font-size-h2 mt-3">{{ $lastnomor }}</div>
@@ -37,27 +37,47 @@
               <!--end::Tiles Widget 11-->
             </div>
           </div>
-          <!--begin::Tiles Widget 13-->
-          <div class="card card-custom bgi-no-repeat gutter-b"
-            style="height: 175px; background-color: #663259; background-position: calc(100% + 0.5rem) 100%; background-size: 100% auto; background-image: url({{ asset('assets') }}/media/svg/patterns/taieri.svg)">
-            <!--begin::Body-->
-            <div class="card-body d-flex align-items-center">
-              <div>
-                <h3 class="text-white font-weight-bolder line-height-lg mb-5">Pengambilan Nomor
-                  <br />Surat Keluar
-                </h3>
-                {{-- <a href='{{ route('suratkeluar.index') }}' class="btn btn-success font-weight-bold px-6 py-3">Ambil Nomor</a> --}}
-                <!-- Button trigger modal-->
-                <input type="hidden" id="nomor_url" value="{{ route('dashboard.createnomor') }}">
-                <button type="button" onclick="create()" class="btn btn-success font-weight-bold px-6 py-3"
-                  data-toggle="modal" data-target="#myModal">
-                  Ambil Nomor
-                </button>
+          <div class="row">
+            <div class="col-xl-6">
+              <!--begin::Tiles Widget 13-->
+              <div class="card card-custom bgi-no-repeat gutter-b"
+                style="height: 175px; background-color: #663259; background-position: calc(100% + 0.5rem) 100%; background-size: 100% auto; background-image: url({{ asset('assets') }}/media/svg/patterns/taieri.svg)">
+                <!--begin::Body-->
+                <div class="card-body d-flex align-items-center">
+                  <div>
+                    <h3 class="text-white font-weight-bolder line-height-lg mb-5">Pengambilan Nomor
+                      <br />Surat Keluar
+                    </h3>
+                    <!-- Button trigger modal-->
+                    @can('create nomor')
+                      <input type="hidden" id="nomor_url" value="{{ route('dashboard.createnomor') }}">
+                      <button type="button" onclick="create()" class="btn btn-primary font-weight-bold px-6 py-3"
+                        data-toggle="modal" data-target="#myModal">
+                        Ambil Nomor
+                      </button>
+                    @endcan
+                  </div>
+                </div>
+                <!--end::Body-->
               </div>
+              <!--end::Tiles Widget 13-->
             </div>
-            <!--end::Body-->
+            <div class="col-xl-6">
+              <!--begin::Tiles Widget 11-->
+              <div class="card card-custom bg-success gutter-b card-stretch">
+                <div class="card-body">
+                  <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
+                    {!! file_get_contents('assets/media/svg/icons/Communication/Incoming-mail.svg') !!}
+                  </span>
+                  <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{ formatNomor($suratmasuk) }}
+                  </div>
+                  <a href="{{ route('suratmasuk.index') }}"
+                    class="text-inverse-success font-weight-bold font-size-lg mt-1">Surat Masuk</a>
+                </div>
+              </div>
+              <!--end::Tiles Widget 11-->
+            </div>
           </div>
-          <!--end::Tiles Widget 13-->
         </div>
         <div class="col-xl-6">
           <!--begin::Mixed Widget 14-->
@@ -67,14 +87,23 @@
             <div class="card-body d-flex flex-column align-items-start justify-content-start">
               <div class="p-1 flex-grow-1">
                 <h3 class="text-white font-weight-bolder line-height-lg mb-5">Selamat Datang {{ auth()->user()->name }},
-                  <br />Pada Aplikasi Penomoran Surat Secara Online
+                  <br />Di Aplikasi Penomoran Surat Secara Online
                 </h3>
               </div>
-              <a href='{{ route('suratkeluar.cetak') }}' class="btn btn-link btn-link-warning font-weight-bold">Cetak
-                rekap surat keluar
-                <span class="svg-icon svg-icon-lg svg-icon-warning">
-                  {!! file_get_contents('assets/media/svg/icons/Navigation/Arrow-right.svg') !!}
-                </span></a>
+              @can('print nomor')
+                <a href='{{ route('suratkeluar.cetak') }}' class="btn btn-link btn-link-primary font-weight-bold mb-4">Cetak
+                  rekap surat keluar
+                  <span class="svg-icon svg-icon-lg svg-icon-primary">
+                    {!! file_get_contents('assets/media/svg/icons/Navigation/Arrow-right.svg') !!}
+                  </span></a>
+              @endcan
+              @can('print surat_masuk')
+                <a href='{{ route('suratmasuk.cetak') }}' class="btn btn-link btn-link-success font-weight-bold">Cetak
+                  rekap surat masuk
+                  <span class="svg-icon svg-icon-lg svg-icon-success">
+                    {!! file_get_contents('assets/media/svg/icons/Navigation/Arrow-right.svg') !!}
+                  </span></a>
+              @endcan
             </div>
             <!--end::Body-->
           </div>

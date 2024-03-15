@@ -49,6 +49,8 @@ class SuratKeluarRepository extends BaseRepository
   public function getCountNomorByCurrentYear(): int
   {
     return $this->model
+      ->satker_scope()
+      ->join('users', 'users.id', '=', 'surat_keluars.user_id')
       ->whereYear('date', date('Y'))
       ->count();
   }
@@ -56,6 +58,8 @@ class SuratKeluarRepository extends BaseRepository
   public function getdataBetween(Carbon $fisrtDate, Carbon $lastDate): Collection
   {
     return $this->model
+      ->satker_scope()
+      ->join('users', 'users.id', '=', 'surat_keluars.user_id')
       ->whereBetween('date', [$fisrtDate, $lastDate])
       ->orderByDesc('date')
       ->get();

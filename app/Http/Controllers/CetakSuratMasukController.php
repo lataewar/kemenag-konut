@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CetakSuratKeluarRequest;
-use App\Services\PhpSpreadsheet\CetakSuratKeluarService;
+use App\Services\PhpSpreadsheet\CetakSuratMasukService;
 use Illuminate\View\View;
 
-class CetakSuratKeluarController extends Controller
+class CetakSuratMasukController extends Controller
 {
   public function __construct(
-    protected CetakSuratKeluarService $service
+    protected CetakSuratMasukService $service
   ) {
-    // $this->middleware('isajaxreq')->except('index');
-    $this->middleware('permission:print nomor');
+    $this->middleware('permission:print surat_masuk');
   }
 
   public function index(): View
   {
-    return view('suratkeluar.cetak');
+    return view('suratmasuk.cetak');
   }
 
   public function cetak(CetakSuratKeluarRequest $request): void

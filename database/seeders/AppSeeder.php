@@ -71,9 +71,19 @@ class AppSeeder extends Seeder
       'has_submenu' => 0,
     ]);
 
+    Menu::create([
+      'id' => 4,
+      'name' => 'Surat Masuk',
+      'route' => 'suratmasuk.index',
+      'icon' => 'Code/Settings4.svg',
+      'desc' => 'Menu Surat Masuk',
+      'has_submenu' => 0,
+    ]);
+
     DB::table('menu_role')->insert([
       ['menu_id' => 2, 'role_id' => 1],
       ['menu_id' => 3, 'role_id' => 1],
+      ['menu_id' => 4, 'role_id' => 1],
     ]);
 
     // ------------------------------  ------------------------------ //
@@ -118,6 +128,7 @@ class AppSeeder extends Seeder
     $permissions = [...$permissions, ...['create klasifikasi', 'read klasifikasi', 'update klasifikasi', 'delete klasifikasi', 'multidelete klasifikasi']];
     $permissions = [...$permissions, ...['create spesimen', 'read spesimen', 'update spesimen', 'delete spesimen', 'multidelete spesimen']];
     $permissions = [...$permissions, ...['create nomor', 'read nomor', 'update nomor', 'delete nomor', 'multidelete nomor', 'print nomor']];
+    $permissions = [...$permissions, ...['create surat_masuk', 'read surat_masuk', 'update surat_masuk', 'delete surat_masuk', 'multidelete surat_masuk', 'print surat_masuk']];
 
     foreach ($permissions as $item) {
       Permission::create(['name' => $item]);
@@ -154,7 +165,7 @@ class AppSeeder extends Seeder
       'desc' => 'Satuan Kerja',
     ]);
     $role = Role::findByName('satker');
-    $role->givePermissionTo(['create nomor', 'read nomor', 'update nomor', 'delete nomor', 'print nomor']);
+    $role->givePermissionTo(['create nomor', 'read nomor', 'update nomor', 'delete nomor', 'print nomor', 'create surat_masuk', 'read surat_masuk', 'update surat_masuk', 'delete surat_masuk', 'multidelete surat_masuk', 'print surat_masuk']);
 
     // ------------------------------  ------------------------------ //
 
@@ -162,12 +173,15 @@ class AppSeeder extends Seeder
       ['menu_id' => 1, 'role_id' => 2],
       ['menu_id' => 2, 'role_id' => 2],
       ['menu_id' => 3, 'role_id' => 2],
+      ['menu_id' => 4, 'role_id' => 2],
 
       ['menu_id' => 1, 'role_id' => 3],
       ['menu_id' => 2, 'role_id' => 3],
       ['menu_id' => 3, 'role_id' => 3],
+      ['menu_id' => 4, 'role_id' => 3],
 
       ['menu_id' => 3, 'role_id' => 4],
+      ['menu_id' => 4, 'role_id' => 4],
     ]);
 
     // ------------------------------  ------------------------------ //

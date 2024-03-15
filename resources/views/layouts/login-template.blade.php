@@ -6,10 +6,9 @@
   <base href="">
   <meta charset="utf-8" />
   <title>{{ $title ?? config('app.name') }}</title>
-  <meta name="description" content="Login page example" />
+  <meta name="description" content="Halaman login aplikasi web Kantor Kementerian Agama Kabupaten Konawe Utara" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="canonical" href="https://keenthemes.com/metronic" />
   <!--begin::Fonts-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
   <!--end::Fonts-->
@@ -35,9 +34,6 @@
     @yield('content')
   </div>
   <!--end::Main-->
-  <script>
-    var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";
-  </script>
   <!--begin::Global Config(global config for global JS scripts)-->
   <script>
     var KTAppSettings = {

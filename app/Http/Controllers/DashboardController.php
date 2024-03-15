@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\KodeKlasifikasiService;
 use App\Services\SpesimenService;
 use App\Services\SuratKeluarService;
+use App\Services\SuratMasukService;
 
 class DashboardController extends Controller
 {
@@ -18,6 +19,7 @@ class DashboardController extends Controller
   {
     return view('dashboard.index', [
       'suratkeluar' => $this->service->getCountNomorByCurrentYear(),
+      'suratmasuk' => app(SuratMasukService::class)->getCountByCurrentYear(),
       'lastnomor' => $this->service->getLastNomorByCurrentYear(),
     ]);
   }

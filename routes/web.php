@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CetakSuratKeluarController;
+use App\Http\Controllers\CetakSuratMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\KodeInstansiController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\SatkerController;
 use App\Http\Controllers\SpesimenController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\SuratKeluarController;
+use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,4 +94,11 @@ Route::middleware('auth')->group(function () {
   Route::get('suratkeluar/cetak', [CetakSuratKeluarController::class, 'index'])->name('suratkeluar.cetak');
   Route::post('suratkeluar/cetak', [CetakSuratKeluarController::class, 'cetak'])->name('suratkeluar.postcetak');
   Route::resource('suratkeluar', SuratKeluarController::class);
+
+  // ---------------------------  SURAT MASUK  --------------------------- //
+  Route::post('suratmasuk/dt', [SuratMasukController::class, 'dt'])->name('suratmasuk.dt');
+  Route::post('suratmasuk/multdelete', [SuratMasukController::class, 'multdelete'])->name('suratmasuk.multdelete');
+  Route::get('suratmasuk/cetak', [CetakSuratMasukController::class, 'index'])->name('suratmasuk.cetak');
+  Route::post('suratmasuk/cetak', [CetakSuratMasukController::class, 'cetak'])->name('suratmasuk.postcetak');
+  Route::resource('suratmasuk', SuratMasukController::class);
 });
