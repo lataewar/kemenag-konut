@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupRestoreController;
 use App\Http\Controllers\CetakSuratKeluarController;
 use App\Http\Controllers\CetakSuratMasukController;
 use App\Http\Controllers\DashboardController;
@@ -101,4 +102,8 @@ Route::middleware('auth')->group(function () {
   Route::get('suratmasuk/cetak', [CetakSuratMasukController::class, 'index'])->name('suratmasuk.cetak');
   Route::post('suratmasuk/cetak', [CetakSuratMasukController::class, 'cetak'])->name('suratmasuk.postcetak');
   Route::resource('suratmasuk', SuratMasukController::class);
+
+  // -----------------------  DEV - BACKUP RESTORE  ----------------------- //
+  Route::get('backup', [BackupRestoreController::class, 'index'])->name('backup.index');
+  Route::post('backup', [BackupRestoreController::class, 'store'])->name('backup.store');
 });

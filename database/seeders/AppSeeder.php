@@ -60,6 +60,14 @@ class AppSeeder extends Seeder
         'created_at' => now(),
         'updated_at' => now(),
       ],
+      [
+        'id' => 9,
+        'menu_id' => 1,
+        'name' => 'Backup & Restore',
+        'route' => 'backup.index',
+        'created_at' => now(),
+        'updated_at' => now(),
+      ],
     ]);
 
     Menu::create([
