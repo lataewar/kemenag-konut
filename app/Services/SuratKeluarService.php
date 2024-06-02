@@ -129,18 +129,21 @@ class SuratKeluarService
           if (!$isNextExist) {
             //  last_num + 1
             $nomor = $lastSurat + 1;
+
+          } else { //  else - (last_num + 1) is exist (there is surat after between the next taken date and today)
+
+            //  if - sisipan not exist
+            if (!$sisipan) {
+              //  last_num & sisipan = a
+              $sisipan = 'a';
+            }
+
+            //  if - sisipan exist
+            else
+              //  last_num & (sisipan + 1)
+              $sisipan++;
           }
 
-          //  if - sisipan not exist
-          if (!$sisipan) {
-            //  last_num & sisipan = a
-            $sisipan = 'a';
-          }
-
-          //  if - sisipan exist
-          else
-            //  last_num & (sisipan + 1)
-            $sisipan++;
         }
 
       }

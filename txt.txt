@@ -126,3 +126,28 @@ VALUES
 /usr/local/bin/php = manually locate php file
 /home/kemz7242/public_html/artisan = manually locate artisan file
 kemz7242 = shared hosting username or homename
+
+
+---------------------------------------- SSH ACCESS ----------------------------------------
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/kemz7242/.ssh/lataewar.
+Your public key has been saved in /home/kemz7242/.ssh/lataewar.pub.
+The key fingerprint is:
+SHA256:FszDOFgtvBSypTjub9wwEXlHsiTpWLRStKaCjxqCeUs
+The key's randomart image is:
++---[RSA 2048]----+
+|   o*+*+.        |
+|   o=%=Bo        |
+|  ++B+++*        |
+|...=o .. o       |
+|o o  .  S        |
+|.*  o  .         |
+|* E. +           |
+|o+ oo .          |
+|. ...            |
++----[SHA256]-----+
+
+id_rsa = lataewar
+pass = B1jinangk@

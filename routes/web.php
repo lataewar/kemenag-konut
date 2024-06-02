@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 require __DIR__ . '/tes.php';
 
-Route::middleware('auth')->group(function () {
+// Route::middleware(['auth', 'su_only'])->group(function () {
+Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::get('/dashboard/createnomor', [DashboardController::class, 'createNomor'])->name('dashboard.createnomor');
   Route::get('/', function () {

@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
     'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
     'isajaxreq' => \App\Http\Middleware\IsAjaxRequest::class,
+    'su_only' => \App\Http\Middleware\SuperAdmin::class,
 
     'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
     'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
