@@ -5,12 +5,20 @@
       <div class="card-header">
         <h3 class="card-title">Isian Surat Keluar</h3>
       </div>
+      @php
+        $arrMetode = \App\Enums\MetodeSuratEnum::toArray();
+        if (auth()->user()->hasRole('satker')) {
+            $arrMetode = array_filter($arrMetode, function ($item) {
+                return $item['name'] == 'Otomatis';
+            });
+        }
+      @endphp
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
             <x-form.select-static-stack2 name="is_otomatis" id="metode">
               Metode Penomoran<x-redstar />
-              @slot('items', \App\Enums\MetodeSuratEnum::toArray())
+              @slot('items', $arrMetode)
             </x-form.select-static-stack2>
           </div>
           <div class="col-md-4">
